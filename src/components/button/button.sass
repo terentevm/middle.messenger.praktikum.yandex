@@ -1,0 +1,28 @@
+@use 'src/styles/_colors'
+.btn
+  border-radius: 8px
+  border: none
+  padding-top: 12px
+  padding-bottom: 12px
+  background: colors.$color-light
+  color: colors.$color-black
+  font-weight: 500
+  font-size: 13px
+  line-height: 13px
+  cursor: pointer
+
+  &_primary
+    background: colors.$color-primary
+    color: colors.$color-white
+
+  &_link
+    background: transparent
+    color: colors.$color-primary
+    padding: 0 0
+    font-style: normal
+    font-weight: 500
+    font-size: 11px
+    line-height: 11px
+
+  &_disabled
+    cursor: not-allowed

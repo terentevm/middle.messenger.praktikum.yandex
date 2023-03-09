@@ -15,10 +15,10 @@ export const Button = ({ title, className, type="button"}: ButtonProps) => {
   return render({ title, className, type})
 }
 
-export const PrimaryButton = ({title, type="button"}: Omit<ButtonProps, "className">) => {
-  return Button({title, className:"btn btn_primary", type});
+export const PrimaryButton = ({title, type="button", className=""}: ButtonProps) => {
+  return Button({title, className:`btn btn_primary ${className}`, type});
 }
 
-export const LinkButton = ({title, type="button"}: Omit<ButtonProps, "className">) => {
-  return Button({title, className:"btn btn_link", type});
+export const LinkButton = ({title, type="button", className=""}: ButtonProps) => {
+  return Button({title, className:`btn btn_link ${className}`, type});
 }

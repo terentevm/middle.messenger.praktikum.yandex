@@ -4,7 +4,8 @@ export interface InputProps {
   id: string;
   label?: string;
   name?: string;
-  placeholder?: string;
-  value?: string,
-  error?: string
+  placeholder?: string | undefined;
+  value?: string | number | undefined,
+  error?: string,
+  disabled?: boolean
 }

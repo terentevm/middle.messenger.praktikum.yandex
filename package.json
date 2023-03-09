@@ -2,7 +2,8 @@
   "name": "messanger",
   "scripts": {
     "dev": "parcel index.html  --no-cache --public-url /",
-    "build": "parcel build index.html --no-cache"
+    "build": "parcel build index.html --no-cache",
+    "start": "node app.js"
   },
   "source": "index.html",
   "devDependencies": {
@@ -16,6 +17,7 @@
     "@parcel/transformer-svg": "^2.8.3",
     "@parcel/transformer-typescript-tsc": "^2.8.3",
     "@partiellkorrekt/parcel-transformer-handlebars": "^1.0.3",
+    "express": "^4.18.2",
     "handlebars": "^4.7.7"
   }
 }

@@ -1,4 +1,12 @@
 @use 'src/styles/_colors'
+
+@mixin danger
+  &_danger
+    color: colors.$color-danger
+@mixin medium
+  &_medium
+    font-size: 13px
+
 .btn
   border-radius: 8px
   border: none
@@ -23,6 +31,11 @@
     font-weight: 500
     font-size: 11px
     line-height: 11px
+    @include danger
+    @include medium
 
   &_disabled
     cursor: not-allowed
+
+  &_large
+    width: 280px

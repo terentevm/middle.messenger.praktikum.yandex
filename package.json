@@ -5,9 +5,6 @@
     "build": "parcel build index.html --no-cache",
     "start": "node app.js"
   },
-  "engines" : {
-    "node" : ">=16.x"
-  },
   "source": "index.html",
   "devDependencies": {
     "@parcel/transformer-inline-string": "^2.8.3",

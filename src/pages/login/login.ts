@@ -1,4 +1,4 @@
-import Handlebars from 'handlebars';
+import Handlebars from 'handlebars/dist/cjs/handlebars';
 import '../../styles/style.sass';
 import authFormTmpl from '../../features/AuthForm/AuthForm';
 import { PrimaryButton, LinkButton } from '../../components/button/Button';

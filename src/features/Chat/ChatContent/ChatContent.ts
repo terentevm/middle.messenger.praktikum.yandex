@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars';
 
 const template: string = `
-  <content></content>
+  <main></main>
 `;
 const ChatContent = () => {
   return Handlebars.compile(template)({})

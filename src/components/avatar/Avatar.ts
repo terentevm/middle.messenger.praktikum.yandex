@@ -1,11 +1,11 @@
 import Handlebars from 'handlebars';
 import avatarNotDefined from './avatarNotDefined.svg';
 const template = `
-  <div class="avatar">
+  <div class="avatar" name="avatar">
     {{#if src}}
-        <img src="{{src}}" class="avatar__image">
+        <img src="{{src}}" class="avatar__image" alt="user avatar">
     {{else}}
-        <img src="{{avatarNotDefined}}">
+        <img src="{{avatarNotDefined}}" alt="Default avatar image">
     {{/if}}
   </div>
 `;

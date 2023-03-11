@@ -1,5 +1,5 @@
-import Handlebars from 'handlebars';
-import { BackAside } from '../../features/BackAside';
+import { ContainerWithBackPanel } from '../../features/ContainerWithBackPanel';
+
 import { ProfileForm } from '../../features/ProfileCard';
 import { testData } from './testData';
 import testAvatar from '../../images/testAvatar.png';
@@ -11,11 +11,13 @@ const template: string = `
 `;
 export const ProfilePage = () => {
 
-  const backAside = BackAside();
-  const profileForm = ProfileForm({name: "Userman", avatar: testAvatar, data: testData});
-
-  return Handlebars.compile(template)({
-    BackAside: backAside,
-    ProfileForm: profileForm
+  const profileForm = ProfileForm({
+    name: "Userman",
+    avatar: testAvatar,
+    data: testData,
+    password: "jfshdd5e453w"
   });
+
+  return ContainerWithBackPanel({children: profileForm})
+
 }

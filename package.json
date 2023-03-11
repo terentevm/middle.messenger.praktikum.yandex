@@ -1,25 +1,25 @@
 {
   "name": "messanger",
   "scripts": {
-    "dev": "parcel index.html  --no-cache --public-url /",
+    "dev": "parcel index.html  --no-cache --public-url / --open",
     "build": "parcel build index.html --no-cache",
     "start": "node app.js"
   },
   "source": "index.html",
   "devDependencies": {
-    "@parcel/transformer-inline-string": "^2.8.3",
-    "parcel": "^2.8.3",
-    "parcel-plugin-handlebars": "^0.4.4",
-    "parcel-transformer-handlebars": "^1.0.0",
+    "@parcel/transformer-inline-string": "2.8.3",
+    "parcel": "2.8.3",
+    "parcel-plugin-handlebars": "0.4.4",
+    "parcel-transformer-handlebars": "1.0.0",
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@parcel/transformer-sass": "^2.8.3",
-    "@parcel/transformer-svg": "^2.8.3",
-    "@parcel/transformer-typescript-tsc": "^2.8.3",
-    "@partiellkorrekt/parcel-transformer-handlebars": "^1.0.3",
-    "express": "^4.18.2",
-    "handlebars": "^4.7.7"
+    "@parcel/transformer-sass": "2.8.3",
+    "@parcel/transformer-svg": "2.8.3",
+    "@parcel/transformer-typescript-tsc": "2.8.3",
+    "@partiellkorrekt/parcel-transformer-handlebars": "1.0.3",
+    "express": "4.18.2",
+    "handlebars": "4.7.7"
   }
 }
 

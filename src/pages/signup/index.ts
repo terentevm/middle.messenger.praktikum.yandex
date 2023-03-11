@@ -31,7 +31,7 @@ const SignUpPage = () => {
   const MailInput = Input({
     id: 'signup_email_input',
     type: 'email',
-    name: 'email_input',
+    name: 'email',
     label: 'Почта',
     placeholder: "Почта",
     //error: "Неверная почта",
@@ -41,7 +41,7 @@ const SignUpPage = () => {
   const LoginInput = Input({
     id: 'signup_login_input',
     type: 'text',
-    name: 'login_input',
+    name: 'login',
     label: 'Логин',
     placeholder: "Логин",
     error: "Неверный логин",
@@ -51,7 +51,7 @@ const SignUpPage = () => {
   const NameInput = Input({
     id: 'signup_name_input',
     type: 'text',
-    name: 'name_input',
+    name: 'first_name',
     label: 'Имя',
     placeholder: "Имя",
     error: "Имя не заполнено"
@@ -60,7 +60,7 @@ const SignUpPage = () => {
   const SurnameInput = Input({
     id: 'signup_surname_input',
     type: 'text',
-    name: 'surname_input',
+    name: 'second_name',
     label: 'Фамилия',
     placeholder: "Фамилия",
     error: "Фамилия не указана",
@@ -70,7 +70,7 @@ const SignUpPage = () => {
   const PhoneInput = Input({
     id: 'signup_phone_input',
     type: 'tel',
-    name: 'phone_input',
+    name: 'phone',
     label: 'Телефон',
     placeholder: "Телефон",
     error: "Телефон не указан",
@@ -80,7 +80,7 @@ const SignUpPage = () => {
   const PasswordInput = Input({
     id: 'login_pass_input',
     type: 'password',
-    name: 'pass_input',
+    name: 'password',
     label: 'Пароль',
     placeholder: "Пароль",
     error: "Неверный пароль"
@@ -89,7 +89,7 @@ const SignUpPage = () => {
   const ConfirmPasswordInput = Input({
     id: 'login_pass_rep__input',
     type: 'password',
-    name: 'pass_rep_input',
+    name: 'password_repeat',
     label: 'Пароль (еще раз)',
     placeholder: "Пароль (еще раз)",
     error: "Пароль не совпадает"

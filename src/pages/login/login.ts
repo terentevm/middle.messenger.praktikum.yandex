@@ -25,7 +25,7 @@ const LoginPage = () => {
   const LoginInput = Input({
     id: 'login_email_input',
     type: 'text',
-    name: 'login_input',
+    name: 'login',
     label: 'Логин',
     placeholder: "Логин",
     error: "Неверный логин",
@@ -35,7 +35,7 @@ const LoginPage = () => {
   const PasswordInput = Input({
     id: 'login_pass_input',
     type: 'password',
-    name: 'pass_input',
+    name: 'password',
     label: 'Пароль',
     placeholder: "Пароль",
     error: "Неверный пароль"

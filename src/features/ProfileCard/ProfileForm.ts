@@ -1,6 +1,7 @@
 import Handlebars from 'handlebars';
 import { Avatar } from '../../components/avatar';
 import { ProfileFormProps } from './types';
+import type { ProfileMode } from './types';
 import { ProfileData } from './PorfileData';
 import { LinkButton, PrimaryButton } from '../../components/button/Button';
 import { Divider } from '../../components/divider';
@@ -78,7 +79,7 @@ export const ProfileForm = ({
   data
 }: ProfileFormProps) => {
 
-  const mode : "edit" | "read" = "read";
+  const mode : ProfileMode = "read";
   const avatarEl = Avatar({ src: avatar});
 
   const headerEl = Handlebars.compile(headerTemplate)({

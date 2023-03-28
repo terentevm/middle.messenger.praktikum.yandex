@@ -1,3 +1,3 @@
 import { Chat } from '../../features/Chat';
 
-export const ChatPage = () => Chat();
+export default new Chat();

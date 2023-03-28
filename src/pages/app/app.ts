@@ -10,7 +10,6 @@ const template = `
     <a href="/signup">Регистрация</a>
     <a href="/404">404</a>
     <a href="/500">500</a>
-    <a href="/test">Тест классового компонента</a>
   </nav>
 `;
 

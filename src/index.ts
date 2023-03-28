@@ -5,7 +5,7 @@ import { LoginPage } from './pages/login/login';
 import { SignUpPage } from './pages/signup';
 import { Page404 } from './pages/404/404';
 import { Page500 } from './pages/500/500';
-import { ChatPage } from './pages/chat/chat';
+import ChatPage from './pages/chat/chat';
 import { ProfilePage } from './pages/profile/profile';
 import { ChangePasswordPage } from './pages/changePassword/changePassword';
 
@@ -15,7 +15,7 @@ routes.set('/login', LoginPage);
 routes.set('/signup', SignUpPage);
 routes.set('/404', Page404);
 routes.set('/500', Page500);
-// routes.set('/chat', ChatPage);
+routes.set('/chat', ChatPage);
 routes.set('/profile', ProfilePage());
 routes.set('/profile/change-password', ChangePasswordPage());
 
@@ -25,4 +25,6 @@ const config : configType = {
 
 const root = document.getElementById('root');
 
-router(config, root);
+if (root) {
+  router(config, root);
+}

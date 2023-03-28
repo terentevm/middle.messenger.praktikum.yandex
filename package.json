@@ -16,6 +16,8 @@
     "parcel": "2.8.3",
     "parcel-plugin-handlebars": "0.4.4",
     "parcel-transformer-handlebars": "1.0.0",
+    "stylelint": "^15.3.0",
+    "stylelint-config-standard-scss": "^7.0.1",
     "typescript": "^4.9.5"
   },
   "dependencies": {
@@ -26,6 +28,9 @@
     "eslint-config-airbnb-base": "^15.0.0",
     "express": "4.18.2",
     "handlebars": "4.7.7",
+    "stylelint-config-sass-guidelines": "^10.0.0",
+    "stylelint-config-standard": "^31.0.0",
+    "stylelint-scss": "^4.6.0",
     "uuid": "^9.0.0"
   }
 }

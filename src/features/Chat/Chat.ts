@@ -1,24 +1,22 @@
 import Handlebars from 'handlebars';
 import { ChatList } from './ChatList';
 import { ChatContent } from './ChatContent';
+import { Component } from '../../classes';
 
 const template = `
   <div class="chat">
-    {{{ ChatList }}}
-    {{{ ChatContent }}}
+    {{{ chatList }}}
+    {{{ chatContent }}}
   </div>
 `;
 
-const Chat = () => {
-  const chatList = ChatList();
-  const chatContent = ChatContent();
+export class Chat extends Component {
+  protected init() {
+    this.children.chatList = new ChatList();
+    this.children.chatContent = new ChatContent();
+  }
 
-  const context = {
-    ChatList: chatList,
-    ChatContent: chatContent,
-  };
-
-  return Handlebars.compile(template)(context);
-};
-
-export { Chat };
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(template), {});
+  }
+}

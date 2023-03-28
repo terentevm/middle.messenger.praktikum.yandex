@@ -1,19 +1,25 @@
-import { BackAside } from '../../features/BackAside';
 import Handlebars from 'handlebars';
+import { BackAside } from '../BackAside';
 import { ContainerWithBackPanelType } from './types';
-const template: string = `
+import { Component } from '../../classes/component/Component';
+
+const template = `
   <div class="containerProfile">
-    {{{ BackAside }}}
-    {{{ Children }}}
+    {{{ backAside }}}
+    {{{ childrenComponent }}}
   </div>
 `;
 
-export const ContainerWithBackPanel = ({children, backUrl=""}: ContainerWithBackPanelType) => {
+export class ContainerWithBackPanel extends Component<ContainerWithBackPanelType> {
+  constructor(props: ContainerWithBackPanelType) {
+    super('div', props);
+  }
 
-  const backAside = BackAside();
+  protected init() {
+    this.children.backAside = new BackAside();
+  }
 
-  return Handlebars.compile(template)({
-    BackAside: backAside,
-    Children: children
-  });
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(template), this._props);
+  }
 }

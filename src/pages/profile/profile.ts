@@ -3,21 +3,14 @@ import { ContainerWithBackPanel } from '../../features/ContainerWithBackPanel';
 import { ProfileForm } from '../../features/ProfileCard';
 import { testData } from './testData';
 import testAvatar from '../../images/testAvatar.png';
-const template: string = `
-  <div class="profile">
-    {{{ BackAside }}}
-    {{{ ProfileForm }}}
-  </div>
-`;
-export const ProfilePage = () => {
 
-  const profileForm = ProfileForm({
-    name: "Userman",
+export const ProfilePage = () => {
+  const profileForm = new ProfileForm({
+    name: 'Userman',
     avatar: testAvatar,
     data: testData,
-    password: "jfshdd5e453w"
+    mode: 'read',
   });
 
-  return ContainerWithBackPanel({children: profileForm})
-
-}
+  return new ContainerWithBackPanel({ childrenComponent: profileForm });
+};

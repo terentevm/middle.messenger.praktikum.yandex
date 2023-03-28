@@ -1,20 +1,32 @@
-export type ProfileDataElement = {
-  label: string;
-  value: string | number | null | undefined;
-  id: string;
-  name: string;
-  placeholder?: string | undefined
-}
-export interface ProfileDataProps {
-  data: Array<ProfileDataElement>;
-  mode: "edit" | "read"
+import { ComponentPropType } from '../../classes/component/types';
+import { Component } from '../../classes/component/Component';
+
+export interface HeaderProps extends ComponentPropType {
+  Avatar: Component;
+  withName: boolean;
+  name?: string;
 }
 
-export interface ProfileFormProps {
+export type ProfileDataType = {
+  email: string;
+  login: string;
+  password: string;
+  firstName: string;
+  secondName: string;
+  displayName: string;
+  phone: string;
+}
+
+export type ProfileMode = 'edit' | 'read';
+
+export interface ProfileDataProps extends ComponentPropType {
+  data: ProfileDataType;
+  mode: ProfileMode;
+}
+
+export interface ProfileFormProps extends ComponentPropType {
   name?: string | undefined;
   avatar?: string | undefined;
-  data: Array<ProfileDataElement>
-  password: string
+  data: ProfileDataType;
+  mode: ProfileMode;
 }
-
-export type ProfileMode = "edit" | "read";

@@ -1,10 +1,8 @@
 import Handlebars from 'handlebars';
 
-const template: string = `
+const template = `
   <main></main>
 `;
-const ChatContent = () => {
-  return Handlebars.compile(template)({})
-}
+const ChatContent = () => Handlebars.compile(template)({});
 
 export { ChatContent };

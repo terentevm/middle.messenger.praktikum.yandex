@@ -2,7 +2,7 @@ import Handlebars from 'handlebars';
 import { ChatList } from './ChatList';
 import { ChatContent } from './ChatContent';
 
-const template: string = `
+const template = `
   <div class="chat">
     {{{ ChatList }}}
     {{{ ChatContent }}}
@@ -15,11 +15,10 @@ const Chat = () => {
 
   const context = {
     ChatList: chatList,
-    ChatContent: chatContent
-  }
+    ChatContent: chatContent,
+  };
 
   return Handlebars.compile(template)(context);
-
-}
+};
 
 export { Chat };

@@ -5,13 +5,12 @@ import { testData } from '../profile/testData';
 import testAvatar from '../../images/testAvatar.png';
 
 export const ChangePasswordPage = () => {
-
-  const profileForm = ChangePasswordForm({
+  const profileForm = new ChangePasswordForm({
+    name: 'Userman',
     avatar: testAvatar,
-    password: "jfshdd5e453w",
     data: testData,
+    mode: 'read',
   });
 
-  return ContainerWithBackPanel({children: profileForm})
-
-}
+  return new ContainerWithBackPanel({ childrenComponent: profileForm });
+};

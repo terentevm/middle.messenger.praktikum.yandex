@@ -1,5 +1,8 @@
 import Handlebars from 'handlebars';
+import { Component } from '../../classes/component/Component';
+import { AvatarProps } from './types';
 import avatarNotDefined from './avatarNotDefined.svg';
+
 const template = `
   <div class="avatar" name="avatar">
     {{#if src}}
@@ -10,9 +13,12 @@ const template = `
   </div>
 `;
 
-interface AvatarProps {
-  src?: string
-}
-export const Avatar = ({ src }: AvatarProps) => {
-  return Handlebars.compile(template)({src: src, avatarNotDefined: avatarNotDefined});
+export class Avatar extends Component<AvatarProps> {
+  constructor(props: AvatarProps) {
+    super('div', { ...props, avatarNotDefined });
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(template), this._props);
+  }
 }

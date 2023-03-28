@@ -1,5 +1,7 @@
+import { Component } from '../classes/component/Component';
+
 export interface configType {
-  routes: Map<string, ()=>string>
+  routes: Map<string, Component>
 }
 
 export const router = (config: configType, root: HTMLElement) : void => {
@@ -9,9 +11,9 @@ export const router = (config: configType, root: HTMLElement) : void => {
   const component = config.routes.get(currentPath);
 
   if (component) {
-    root.innerHTML = component();
+    root.appendChild(component.getContent() as Node);
+    component.dispatchComponentDidMount();
   } else {
     root.innerHTML = notFound;
   }
-
-}
+};

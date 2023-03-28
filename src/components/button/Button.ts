@@ -1,7 +1,8 @@
 import Handlebars from 'handlebars';
 import { ButtonProps } from './types';
+import { Component } from '../../classes/component/Component';
 
-export const template : string = `
+export const template = `
   <button
     type="{{type}}"
     class="{{className}}"
@@ -9,16 +10,32 @@ export const template : string = `
   </button>
 `;
 
-export const Button = ({ title, className, type="button"}: ButtonProps) => {
-  const render = Handlebars.compile(template);
+export class Button extends Component<ButtonProps> {
+  constructor(props: ButtonProps) {
+    super('button', props);
+  }
 
-  return render({ title, className, type})
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(template), this._props);
+  }
 }
 
-export const PrimaryButton = ({title, type="button", className=""}: ButtonProps) => {
-  return Button({title, className:`btn btn_primary ${className}`, type});
+export class PrimaryButton extends Button {
+  constructor({
+    title, type = 'button', className = '', events,
+  }: ButtonProps) {
+    super({
+      title, className: `btn btn_primary ${className}`, type, events,
+    });
+  }
 }
 
-export const LinkButton = ({title, type="button", className=""}: ButtonProps) => {
-  return Button({title, className:`btn btn_link ${className}`, type});
+export class LinkButton extends Button {
+  constructor({
+    title, type = 'button', className = '', events,
+  }: ButtonProps) {
+    super({
+      title, className: `btn btn_link ${className}`, type, events,
+    });
+  }
 }

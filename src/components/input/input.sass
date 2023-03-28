@@ -25,13 +25,22 @@
     line-height: 9px
     color: colors.$color-gray-1
 
+    &_hidden
+      display: none
+
   @include placeholder
     font-style: normal
     font-weight: 500
     font-size: 13px
     line-height: 13px
     color: colors.$color-gray-1
-
+  &__block
+    display: flex
+    flex-direction: column
+    gap: 2px
+    justify-content: start
+    width: 100%
+    align-items: end
   &__error
     font-style: normal
     font-weight: 400

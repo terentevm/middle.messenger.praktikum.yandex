@@ -6,8 +6,6 @@ const template = `
   </aside >
 `;
 
-const ChatList = () => {
-  return Handlebars.compile(template)({});
-}
+const ChatList = () => Handlebars.compile(template)({});
 
 export { ChatList };

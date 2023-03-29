@@ -1,4 +1,4 @@
-import './styles/style.sass';
+import './styles/style.scss';
 import { configType, router } from './routerDev';
 import { App } from './pages/app/app';
 import { LoginPage } from './pages/login/login';

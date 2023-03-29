@@ -1,15 +1,18 @@
 {
-  "extends": "stylelint-config-sass-guidelines",
-  "plugins": [
-    "stylelint-scss"
-  ],
+  "extends": "stylelint-config-standard-scss",
+  "plugins": ["stylelint-scss"],
   "rules": {
+    "selector-pseudo-class-no-unknown": [
+      true,
+      {
+        "ignorePseudoClasses": ["global"]
+      }
+    ],
     "at-rule-no-unknown": null,
     "scss/at-rule-no-unknown": true,
-    "no-descending-specificity": null,
-    "declaration-block-no-duplicate-properties": true,
-    "declaration-block-trailing-semicolon": "always",
-    "no-invalid-double-slash-comments": true
+    "selector-pseudo-element-no-unknown": null,
+    "selector-pseudo-class-no-unknown": null,
+    "selector-class-pattern": "^[a-zA-Z].*$"
   },
   "ignoreFiles": [
     "dist/*"

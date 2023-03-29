@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "parcel index.html  --no-cache --public-url / --open",
     "build": "parcel build index.html --no-cache",
-    "start": "node app.js"
+    "start": "parcel build index.html --no-cache & node app.js"
   },
   "source": "index.html",
   "devDependencies": {

@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars';
+import { Component } from '../../classes/component/Component';
 
 const template = `
   <nav class="app__links">
@@ -12,6 +13,12 @@ const template = `
   </nav>
 `;
 
-export const App = () => {
-  return template;
+export class App extends Component {
+  constructor() {
+    super('nav', {});
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(template), {});
+  }
 }

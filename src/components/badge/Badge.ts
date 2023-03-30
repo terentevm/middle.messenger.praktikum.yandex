@@ -1,23 +1,25 @@
 import Handlebars from 'handlebars';
+import { BadgeProps } from './types';
+import { Component } from '../../classes/component/Component';
+
 const template = `
   <div class="{{ classList }}">
-    {{{ content }}}
+    <img src={{ content }} alt="badge icon"/>
   </div>
 `;
 
-interface BadgeProps {
-  type: "primary" | "secondary";
-  content: string;
-  size: "small" | "medium" | "large"
+class Badge extends Component<BadgeProps> {
+  constructor({ type = 'primary', content = '', size = 'small' }: BadgeProps) {
+    super('div', { type, content, size });
+  }
+
+  protected render(): DocumentFragment {
+    const classArr = [`badge badge_${this._props.size}`];
+    if (this._props.type === 'primary') classArr.push('badge_primary');
+
+    const classList = classArr.join(' ');
+
+    return this.compile(Handlebars.compile(template), { ...this._props, classList });
+  }
 }
-const Badge = ({ type = "primary", content="", size = "small"}) => {
-
-  const classArr = [`badge badge_${size}`]
-  type === "primary" && classArr.push("badge_primary")
-
-  const classList = classArr.join(" ");
-
-  return Handlebars.compile(template)({classList: classList, content: content})
-}
-
 export { Badge };

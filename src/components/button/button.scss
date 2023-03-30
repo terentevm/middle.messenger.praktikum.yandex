@@ -1,0 +1,52 @@
+@use 'src/styles/_colors';
+
+@mixin danger {
+  &_danger {
+    color: colors.$color-danger;
+  }
+}
+
+@mixin medium {
+  &_medium {
+    font-size: 13px;
+  }
+}
+
+.btn {
+  border-radius: 8px;
+  border: none;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background: colors.$color-light;
+  color: colors.$color-black;
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 13px;
+  cursor: pointer;
+
+  &_primary {
+    background: colors.$color-primary;
+    color: colors.$color-white;
+  }
+
+  &_link {
+    background: transparent;
+    color: colors.$color-primary;
+    padding: 0;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 11px;
+
+    @include danger;
+    @include medium;
+  }
+
+  &_disabled {
+    cursor: not-allowed;
+  }
+
+  &_large {
+    width: 280px;
+  }
+}

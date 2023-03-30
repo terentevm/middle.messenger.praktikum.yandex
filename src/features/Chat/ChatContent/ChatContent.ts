@@ -1,10 +1,12 @@
 import Handlebars from 'handlebars';
+import { Component } from '../../../classes';
 
-const template: string = `
+const template = `
   <main></main>
 `;
-const ChatContent = () => {
-  return Handlebars.compile(template)({})
-}
 
-export { ChatContent };
+export class ChatContent extends Component {
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(template), {});
+  }
+}

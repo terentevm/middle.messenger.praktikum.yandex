@@ -3,71 +3,69 @@ import { Avatar } from '../../components/avatar';
 import { ProfileFormProps } from './types';
 import { PrimaryButton } from '../../components/button/Button';
 import { Divider } from '../../components/divider';
-import { InlineInput } from '../../components/input';
-
-const headerTemplate = `
-  <section class="pofileForm__header">
-    {{{ Avatar }}}
-  </section>
-`;
-
-const saveActionsTemplate = `
-  <section class="pofileForm__save">
-
-    {{{ ButtonSave}}}
-
-  </section>
-`;
+import { ProfileInput } from '../../components/input';
+import { Component } from '../../classes/component/Component';
+import { Header } from './Header';
 
 const template = `
   <div class="pofileForm">
     {{{ ProfileHeader }}}
      <section class="pofileForm__data">
       {{{ OldPasswordInput }}}
-      {{{ Divider }}}
+      {{{ Divider1 }}}
       {{{ NewPasswordInput }}}
-      {{{ Divider }}}
+      {{{ Divider2 }}}
       {{{ NewPasswordRepeatInput }}}
     </section>
-    {{{ Actions }}}
+      <section class="pofileForm__save">
+  
+      {{{ ButtonSave}}}
+  
+    </section>
   </div>
 `;
 
-const createSaveActionsSection = () => {
-
-  const ButtonSave = PrimaryButton({title: "Сохранить", type: 'button', className: 'btn_large'});
-
-  const context = {
-    ButtonSave
+export class ChangePasswordForm extends Component<ProfileFormProps> {
+  constructor(props: ProfileFormProps) {
+    super('div', props);
   }
 
-  return Handlebars.compile(saveActionsTemplate)(context);
-}
+  protected init() {
+    this.children.ProfileHeader = new Header({
+      withName: false,
+      Avatar: new Avatar({ src: this._props.avatar }),
+    });
+    this.children.Divider1 = new Divider();
+    this.children.Divider2 = new Divider();
+    this.children.OldPasswordInput = ProfileInput({
+      id: 'old_password',
+      name: 'oldPassword',
+      value: '',
+      label: 'Старый пароль',
+      type: 'password',
+    });
+    this.children.NewPasswordInput = ProfileInput({
+      id: 'new_password',
+      name: 'newPassword',
+      value: '',
+      label: 'Новый пароль',
+      type: 'password',
+    });
+    this.children.NewPasswordRepeatInput = ProfileInput({
+      id: 'new_password_repeat',
+      name: 'newPasswordRepeat',
+      value: '',
+      label: 'Повторите новый пароль',
+      type: 'password',
+    });
+    this.children.ButtonSave = new PrimaryButton({
+      title: 'Сохранить',
+      type: 'button',
+      className: 'btn_large',
+    });
+  }
 
-export const ChangePasswordForm = ({
-  avatar,
-  password
-}: ProfileFormProps) => {
-
-  const avatarEl = Avatar({ src: avatar});
-
-  const headerEl = Handlebars.compile(headerTemplate)({
-    Avatar:avatarEl
-  });
-
-  const divider = Divider();
-
-  const OldPasswordInput = InlineInput({id: "old_password", name: "oldPassword", value: password, label: "Старый пароль", type: "password" });
-  const NewPasswordInput = InlineInput({id: "new_password", name: "newPassword", value: "", label: "Новый пароль", type: "password" });
-  const NewPasswordRepeatInput = InlineInput({id: "new_password_repeat", name: "newPasswordRepeat", value: "", label: "Повторите новый пароль", type: "password" });
-  const ActionsSection = createSaveActionsSection();
-
-  return Handlebars.compile(template)({
-    ProfileHeader:headerEl,
-    OldPasswordInput,
-    NewPasswordInput,
-    NewPasswordRepeatInput,
-    Divider: divider,
-    Actions: ActionsSection
-  })
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(template), this._props);
+  }
 }

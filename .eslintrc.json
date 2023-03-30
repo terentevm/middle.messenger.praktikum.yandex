@@ -1,0 +1,53 @@
+{
+  "extends": [
+    "airbnb/base",
+    "plugin:@typescript-eslint/recommended"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],  
+  "parserOptions": {
+    "ecmaVersion": 2020, // Allows for the parsing of modern ECMAScript features
+    "sourceType": "module" // Allows for the use of imports
+
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
+  "rules": {
+    "react/recommended": "off",
+    "no-console": "off",
+    "import/prefer-default-export": "off",
+    "no-empty-function": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "max-len": [2, 100],
+    "@typescript-eslint/no-unused-vars": 2,
+    "no-underscore-dangle":  ["error", { "allowAfterThis": true, "enforceInClassFields": false }],
+    "class-methods-use-this": ["error", { "enforceForClassFields": false }],
+    "import/no-unresolved": [2, { "caseSensitive": false } ],
+    "no-param-reassign": ["error", { "props": false }],
+    "no-unused-expressions": ["error", { "allowTernary": true }],
+    "max-classes-per-file": [
+      "error",
+      { "ignoreExpressions": true, "max": 5 }
+    ],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never",
+        "svg": "always"
+      }
+   ] 
+  },
+  "env": {
+    "browser": true,
+    "node": true
+  }
+}

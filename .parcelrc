@@ -2,7 +2,7 @@
   "extends": "@parcel/config-default",
   "transformers": {
     "*.hbs": ["@partiellkorrekt/parcel-transformer-handlebars"],
-    ".sass": ["@parcel/transformer-sass"],
+    ".scss": ["@parcel/transformer-sass"],
     "*.{ts,tsx}": ["@parcel/transformer-typescript-tsc"],
     ".svg": ["@parcel/transformer-svg"],
   }

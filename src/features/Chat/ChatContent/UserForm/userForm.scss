@@ -1,15 +1,17 @@
 .userForm {
   min-width: 350px;
+
   &__content {
     padding-top: 50px;
     padding-bottom: 33px;
   }
+
   &__title {
     font-style: normal;
     font-weight: 500;
     font-size: 15px;
     line-height: 20px;
-    padding: 0 0;
-    margin: 0 0;
+    padding: 0;
+    margin: 0;
   }
 }

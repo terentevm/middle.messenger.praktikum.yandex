@@ -33,11 +33,9 @@
     color: colors.$color-white;
 
     &:hover {
-      box-shadow: 0px 0px 10px 3px #3369F3;
+      box-shadow: 0 0 10px 3px #3369F3;
     }
   }
-
-
 
   &__link {
     display: block;
@@ -49,6 +47,7 @@
     font-size: 11px;
     line-height: 11px;
     text-align: center;
+
     @include danger;
     @include medium;
 
@@ -56,9 +55,10 @@
       @include color-secondary;
     }
   }
+
   &_rounded {
     border-radius: 50%;
-    padding: 9px 9px;
+    padding: 9px;
   }
 
   &_icon {
@@ -81,6 +81,7 @@
     width: 100%;
   }
 }
+
 .link__wrapper {
   display: flex;
   flex-direction: row;

@@ -11,26 +11,24 @@
     justify-content: end;
   }
 }
-.messageContent {
 
+.messageContent {
   padding: 11px;
-  font-family: 'Inter';
   font-style: normal;
   font-weight: 500;
   font-size: 12px;
   line-height: 15px;
   text-align: right;
-
   color: #1E1E1E;
   max-width: 45%;
 
   &_out {
     background: #E4EDFD;
-    border-radius: 10px 10px 0px 10px;
-  }
-  &_in {
-    background: #F8F8F8;
-    border-radius: 0px 10px 10px 10px;
+    border-radius: 10px 10px 0;
   }
 
+  &_in {
+    background: #F8F8F8;
+    border-radius: 0 10px 10px;
+  }
 }

@@ -5,7 +5,6 @@
   padding: 10px 20px;
 
   &__header {
-
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -26,6 +25,7 @@
   &__content::-webkit-scrollbar {
     display: none;
   }
+
   &__message {
     display: flex;
     flex-direction: row;
@@ -41,13 +41,12 @@
   }
 
   &__notSelectedText {
-    font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
     font-size: 12px;
     line-height: 12px;
     text-align: center;
-    color: #999999;
+    color: #999;
   }
 }
 
@@ -58,13 +57,12 @@
   border-radius: 30px;
   flex-grow: 1;
   padding: 10px 20px;
-  font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 12px;
-  &::placeholder {
+  font-style: normal;
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 12px;
 
-    color: #999999;
+  &::placeholder {
+    color: #999;
   }
 }

@@ -1,120 +1,186 @@
 import Handlebars from 'handlebars';
-import '../../styles/style.sass';
-import authFormTmpl from '../../features/AuthForm/AuthForm';
+import { Component } from '../../classes/component/Component';
 import { PrimaryButton, LinkButton } from '../../components/button/Button';
-import { Input } from '../../components/input';
+import { LoginInput } from '../../components/input';
+import { AuthForm } from '../../features/AuthForm/AuthForm';
+import { EventType } from '../../classes/component/types';
+import { rules } from '../../utils/validationRules';
+import { UserController } from '../../controllers/UserController';
+import { withRouter } from '../../classes';
+import { Routes } from '../../config';
 
-Handlebars.registerPartial('AuthForm', authFormTmpl);
-
-const LoginTemplate = `
-  {{#>AuthForm title="Регистрация"}}
-    <div class="authForm__content">
-        {{{ MailInput }}}
-        {{{ LoginInput }}}
-        {{{ NameInput }}}
-        {{{ LoginInput }}}
-        {{{ SurnameInput }}}
-        {{{ PhoneInput }}}
-        {{{ PasswordInput }}}
-        {{{ ConfirmPasswordInput }}}
-    </div>
-    <div class="authForm__actions">
-        {{{ ButtonAuth }}}
-        {{{ ButtonLink }}}
-    </div>
-  {{/AuthForm }}
+const formContentTemplate = `
+  <div class="authForm__content">
+    {{{ emailInput }}}
+    {{{ loginInput }}}
+    {{{ nameInput }}}
+    {{{ surnameInput }}}
+    {{{ phoneInput }}}
+    {{{ passwordInput }}}
+    {{{ confirmPasswordInput }}}
+  </div>
 `;
 
-const SignUpPage = () => {
-  const render = Handlebars.compile(LoginTemplate);
+const formActionsTemplate = `
+  <div class="authForm__actions">
+    {{{ buttonAuth }}} 
+    {{{ buttonLink }}}    
+  </div>
+`;
 
-  const MailInput = Input({
-    id: 'signup_email_input',
-    type: 'email',
-    name: 'email',
-    label: 'Почта',
-    placeholder: "Почта",
-    //error: "Неверная почта",
-    value: 'Test123'
-  });
+class FormContent extends Component {
+  protected init() {
+    this.children.emailInput = LoginInput({
+      id: 'signup_email_input',
+      type: 'email',
+      name: 'email',
+      label: 'Почта',
+      placeholder: 'Почта',
+      error: '',
+      value: '',
+      validate: true,
+      required: true,
+      pattern: rules.email,
+      onErrorMsg: 'Неверная почта',
+    });
 
-  const LoginInput = Input({
-    id: 'signup_login_input',
-    type: 'text',
-    name: 'login',
-    label: 'Логин',
-    placeholder: "Логин",
-    error: "Неверный логин",
-    value: 'Test123'
-  });
+    this.children.loginInput = LoginInput({
+      id: 'login_email_input',
+      type: 'text',
+      name: 'login',
+      label: 'Логин',
+      placeholder: 'Логин',
+      error: '',
+      value: '',
+      validate: true,
+      required: true,
+      pattern: rules.login,
+      onErrorMsg: 'Неверный логин',
+    });
 
-  const NameInput = Input({
-    id: 'signup_name_input',
-    type: 'text',
-    name: 'first_name',
-    label: 'Имя',
-    placeholder: "Имя",
-    error: "Имя не заполнено"
-  });
+    this.children.nameInput = LoginInput({
+      id: 'signup_name_input',
+      type: 'text',
+      name: 'first_name',
+      label: 'Имя',
+      placeholder: 'Имя',
+      error: '',
+      value: '',
+      validate: true,
+      required: true,
+      pattern: rules.firstName,
+      onErrorMsg: 'Имя указано не верно',
+    });
 
-  const SurnameInput = Input({
-    id: 'signup_surname_input',
-    type: 'text',
-    name: 'second_name',
-    label: 'Фамилия',
-    placeholder: "Фамилия",
-    error: "Фамилия не указана",
-    //value: ''
-  });
+    this.children.surnameInput = LoginInput({
+      id: 'signup_surname_input',
+      type: 'text',
+      name: 'second_name',
+      label: 'Фамилия',
+      placeholder: 'Фамилия',
+      error: '',
+      value: '',
+      validate: true,
+      required: true,
+      pattern: rules.secondName,
+      onErrorMsg: 'Фамилия указана не верно',
+    });
 
-  const PhoneInput = Input({
-    id: 'signup_phone_input',
-    type: 'tel',
-    name: 'phone',
-    label: 'Телефон',
-    placeholder: "Телефон",
-    error: "Телефон не указан",
-    //value: ''
-  });
+    this.children.phoneInput = LoginInput({
+      id: 'signup_phone_input',
+      type: 'tel',
+      name: 'phone',
+      label: 'Телефон',
+      placeholder: 'Телефон',
+      error: '',
+      value: '',
+      validate: true,
+      required: true,
+      pattern: rules.phone,
+      onErrorMsg: 'Телефон указан не верно',
+    });
 
-  const PasswordInput = Input({
-    id: 'login_pass_input',
-    type: 'password',
-    name: 'password',
-    label: 'Пароль',
-    placeholder: "Пароль",
-    error: "Неверный пароль"
-  });
+    this.children.passwordInput = LoginInput({
+      id: 'login_password_input',
+      type: 'password',
+      name: 'password',
+      label: 'Пароль',
+      placeholder: 'Пароль',
+      error: '',
+      value: '',
+      validate: true,
+      required: true,
+      pattern: rules.password,
+      onErrorMsg: 'Неверный пароль',
+    });
 
-  const ConfirmPasswordInput = Input({
-    id: 'login_pass_rep__input',
-    type: 'password',
-    name: 'password_repeat',
-    label: 'Пароль (еще раз)',
-    placeholder: "Пароль (еще раз)",
-    error: "Пароль не совпадает"
-  });
-  const BtnMain = PrimaryButton({
-    title: 'Зарегистрироваться',
-    type: 'button'
-  });
+    this.children.confirmPasswordInput = LoginInput({
+      id: 'login_pass_rep__input',
+      type: 'password',
+      name: 'password_repeat',
+      label: 'Пароль (еще раз)',
+      placeholder: 'Пароль (еще раз)',
+      error: '',
+      value: '',
+      validate: true,
+      required: true,
+      pattern: rules.password,
+      onErrorMsg: 'Неверный пароль',
+    });
+  }
 
-  const BtnLink = LinkButton({
-    title: 'Войти',
-    type: 'button'
-  });
-
-  return render({
-    MailInput: MailInput,
-    LoginInput: LoginInput,
-    NameInput: NameInput,
-    SurnameInput: SurnameInput,
-    PhoneInput: PhoneInput,
-    PasswordInput: PasswordInput,
-    ConfirmPasswordInput: ConfirmPasswordInput,
-    ButtonAuth: BtnMain,
-    ButtonLink: BtnLink
-} );
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(formContentTemplate), { ...this._props });
+  }
 }
 
-export { SignUpPage };
+class FormActions extends Component {
+  protected init() {
+    this.children.buttonAuth = new PrimaryButton({
+      title: 'Зарегистрироваться',
+      type: 'submit',
+    });
+
+    this.children.buttonLink = new LinkButton({
+      title: 'Войти',
+      to: Routes.login.url,
+    });
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(formActionsTemplate), { ...this._props });
+  }
+}
+
+class SignUpPage extends Component{
+  constructor(props: any) {
+    super(props);
+  }
+
+  init() {
+    this.children.authFrom = new AuthForm({
+      title: 'Регистрация',
+      formContent: new FormContent(),
+      formActions: new FormActions(),
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const userData = AuthForm.getData(e.target as HTMLFormElement);
+          (new UserController()).register(userData).then(()=>{
+            this.router && this.router.go(Routes.login.url);
+          }).catch((err => {
+            console.error(err);
+            alert('Ошибка Http запроса');
+          }));
+        }
+      } as EventType,
+    });
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile('{{{ authFrom }}}'), this._props);
+  }
+}
+
+export default withRouter(SignUpPage);

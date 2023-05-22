@@ -1,2 +1,2 @@
-export { Input } from './Input';
-export { InlineInput } from './inlineInput/InlineInput';
+export { InputGroup } from './InputGroup';
+export { LoginInput, ProfileInput } from './inputFabric';

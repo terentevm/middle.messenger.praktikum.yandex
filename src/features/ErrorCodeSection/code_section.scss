@@ -1,0 +1,36 @@
+@use 'src/styles/_colors';
+
+.codeSection {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+
+  &__code {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 40px;
+    line-height: 40px;
+  }
+
+  &__msg {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 20px;
+  }
+
+  &__link {
+    font-style: normal;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 11px;
+    color: colors.$color-primary;
+    text-decoration: none;
+    flex-basis: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  }
+}

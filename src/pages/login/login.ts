@@ -1,62 +1,112 @@
 import Handlebars from 'handlebars';
-import '../../styles/style.sass';
-import authFormTmpl from '../../features/AuthForm/AuthForm';
+import { Component } from '../../classes/component/Component';
 import { PrimaryButton, LinkButton } from '../../components/button/Button';
-import { Input } from '../../components/input';
+import { LoginInput } from '../../components/input';
+import { AuthForm } from '../../features/AuthForm/AuthForm';
+import { EventType } from '../../classes/component/types';
+import { rules } from '../../utils/validationRules';
+import { withRouter } from '../../classes';
+import { Routes } from '../../config';
+import { UserController } from '../../controllers/UserController';
 
-Handlebars.registerPartial('AuthForm', authFormTmpl);
-
-const LoginTemplate = `
-  {{#>AuthForm title="Вход"}}
-    <div class="authForm__content">
-        {{{ LoginInput }}}
-        {{{ PasswordInput }}}
-    </div>
-    <div class="authForm__actions">
-        {{{ ButtonAuth }}}
-        {{{ ButtonLink }}}
-    </div>
-  {{/AuthForm }}
+const formContentTemplate = `
+  <div class="authForm__content">
+    {{{ loginInput }}}
+    {{{ passwordInput }}}
+  </div>
 `;
 
-const LoginPage = () => {
-  const render = Handlebars.compile(LoginTemplate);
+const formActionsTemplate = `
+  <div class="authForm__actions">
+    {{{ buttonAuth }}} 
+    {{{ buttonLink }}}    
+  </div>
+`;
 
-  const LoginInput = Input({
-    id: 'login_email_input',
-    type: 'text',
-    name: 'login',
-    label: 'Логин',
-    placeholder: "Логин",
-    error: "Неверный логин",
-    value: 'test@test.com'
-  });
+class FormContent extends Component {
+  protected init() {
+    this.children.loginInput = LoginInput({
+      id: 'login_email_input',
+      type: 'text',
+      name: 'login',
+      label: 'Логин',
+      placeholder: 'Логин',
+      error: '',
+      value: '',
+      validate: true,
+      required: true,
+      pattern: rules.login,
+      onErrorMsg: 'Неверный логин',
+    });
 
-  const PasswordInput = Input({
-    id: 'login_pass_input',
-    type: 'password',
-    name: 'password',
-    label: 'Пароль',
-    placeholder: "Пароль",
-    error: "Неверный пароль"
-  });
+    this.children.passwordInput = LoginInput({
+      id: 'login_password_input',
+      type: 'password',
+      name: 'password',
+      label: 'Пароль',
+      placeholder: 'Пароль',
+      error: '',
+      value: '',
+      validate: true,
+      required: true,
+      pattern: rules.password,
+      onErrorMsg: 'Неверный пароль',
+    });
+  }
 
-  const BtnMain = PrimaryButton({
-    title: 'Авторизоваться',
-    type: 'button'
-  });
-
-  const BtnLink = LinkButton({
-    title: 'Нет аккаунта?',
-    type: 'button'
-  });
-
-  return render({
-    LoginInput: LoginInput,
-    PasswordInput: PasswordInput,
-    ButtonAuth: BtnMain,
-    ButtonLink: BtnLink
-} );
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(formContentTemplate), { ...this._props });
+  }
 }
 
-export { LoginPage };
+class FormActions extends Component {
+  protected init() {
+    this.children.buttonAuth = new PrimaryButton({
+      title: 'Авторизоваться',
+      type: 'submit',
+    });
+
+    this.children.buttonLink = new LinkButton({
+      title: 'Нет аккаунта?',
+      to: Routes.signup.url,
+      type: 'button'
+    });
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(formActionsTemplate), { ...this._props });
+  }
+}
+
+class LoginPage extends Component {
+  constructor(props: any) {
+    super(props);
+  }
+
+  init() {
+    this.children.authFrom = new AuthForm({
+      title: 'Вход',
+      formContent: new FormContent(),
+      formActions: new FormActions(),
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const userData = AuthForm.getData(e.target as HTMLFormElement);
+          (new UserController().login(userData)).then(()=>{
+            this.router && this.router.go(Routes.profile.url);
+          }).catch((err => {
+            console.error(err);
+            alert('Ошибка Http запроса');
+          }));
+        },
+      } as EventType,
+    });
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile('{{{ authFrom }}}'), this._props);
+  }
+
+}
+export default withRouter(LoginPage);

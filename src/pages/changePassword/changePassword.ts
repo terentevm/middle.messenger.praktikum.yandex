@@ -1,17 +1,17 @@
+import Handlebars from 'handlebars';
 import { ContainerWithBackPanel } from '../../features/ContainerWithBackPanel';
-
 import { ChangePasswordForm } from '../../features/ProfileCard';
-import { testData } from '../profile/testData';
-import testAvatar from '../../images/testAvatar.png';
+import { Component } from '../../classes';
 
-export const ChangePasswordPage = () => {
+export class ChangePasswordPage extends Component{
+  protected init() {
+    const profileForm = new ChangePasswordForm({});
 
-  const profileForm = ChangePasswordForm({
-    avatar: testAvatar,
-    password: "jfshdd5e453w",
-    data: testData,
-  });
+    this.children.container = new ContainerWithBackPanel({ childrenComponent: profileForm });
+  }
 
-  return ContainerWithBackPanel({children: profileForm})
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile('{{{ container }}}'), this._props)
+  }
+};
 
-}

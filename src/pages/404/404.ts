@@ -1,9 +1,7 @@
 import { ErrorPage } from '../../features/ErrorPage';
 
-const Page404 = () => {
-
-  return ErrorPage({code: 404, message: 'Не туда попали', link: '/chat'});
-
+export class Page404 extends ErrorPage {
+  constructor() {
+    super({ code: 404, message: 'Не туда попали', link: '/' });
+  }
 }
-
-export { Page404 };

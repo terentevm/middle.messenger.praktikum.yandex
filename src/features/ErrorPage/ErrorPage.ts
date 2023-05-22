@@ -1,22 +1,26 @@
 import Handlebars from 'handlebars';
-import { ErrorCodeSection } from '../../features/ErrorCodeSection';
+import { Component } from '../../classes/component/Component';
+import { ErrorCodeSection } from '../ErrorCodeSection';
 import { ErrorCodeSectionProps } from '../ErrorCodeSection/types';
 
-const pageTemplate: string = `
+const pageTemplate = `
   <div class="errorPage">
-    {{{ SectionError }}}
+    {{{ sectionError }}}
   </div>
 `;
 
-const ErrorPage = ({code, message, link}: ErrorCodeSectionProps) => {
+class ErrorPage extends Component<ErrorCodeSectionProps> {
+  constructor(props: ErrorCodeSectionProps) {
+    super(props);
+  }
 
-  const sectionError = ErrorCodeSection({code, message, link});
+  init() {
+    this.children.sectionError = new ErrorCodeSection(this._props);
+  }
 
-  const render = Handlebars.compile(pageTemplate);
-
-  return render({
-    SectionError: sectionError
-  })
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(pageTemplate), this._props);
+  }
 }
 
 export { ErrorPage };

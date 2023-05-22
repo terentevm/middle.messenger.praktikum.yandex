@@ -1,23 +1,23 @@
+import Handlebars from 'handlebars';
 import { ContainerWithBackPanel } from '../../features/ContainerWithBackPanel';
-
 import { ProfileForm } from '../../features/ProfileCard';
-import { testData } from './testData';
-import testAvatar from '../../images/testAvatar.png';
-const template: string = `
-  <div class="profile">
-    {{{ BackAside }}}
-    {{{ ProfileForm }}}
-  </div>
-`;
-export const ProfilePage = () => {
+import { Component } from '../../classes';
 
-  const profileForm = ProfileForm({
-    name: "Userman",
-    avatar: testAvatar,
-    data: testData,
-    password: "jfshdd5e453w"
-  });
+export class ProfilePage extends Component {
+  constructor(props: any) {
+    super(props);
+  }
+  protected init() {
 
-  return ContainerWithBackPanel({children: profileForm})
+    const profileForm = new ProfileForm({
+      user: this._props.user,
+      mode: 'read',
+    });
+    this.children.container = new ContainerWithBackPanel({ childrenComponent: profileForm })
+  }
 
+  protected render(): DocumentFragment {
+    console.log('profile render');
+    return this.compile(Handlebars.compile('{{{ container }}}'), this._props);
+  }
 }

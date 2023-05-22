@@ -1,98 +1,155 @@
 import Handlebars from 'handlebars';
-import { Avatar } from '../../components/avatar';
-import { ProfileFormProps } from './types';
-import type { ProfileMode } from './types';
 import { ProfileData } from './PorfileData';
 import { LinkButton, PrimaryButton } from '../../components/button/Button';
 import { Divider } from '../../components/divider';
-
-const headerTemplate = `
-  <section class="pofileForm__header">
-    {{{ Avatar }}}
-    <h4 class="pofileForm__name">{{ name }}</h4>
-  </section>
-`;
-
-const defaultActionsTemplate = `
-  <section class="pofileForm__actions">
-  
-    {{{ ButtonLinkEditData }}}
-
-    {{{ Divider }}}
-
-    {{{ ButtonLinkChangePass }}}
-
-    {{{ Divider }}}
-
-    {{{ ButtonLinkChangeLogOut }}}
-
-  </section>
-`;
-
-const saveActionsTemplate = `
-  <section class="pofileForm__save">
-
-    {{{ ButtonSave}}}
-
-  </section>
-`;
+import { Header } from './Header';
+import { Component } from '../../classes/component/Component';
+import { EventType } from '../../classes/component/types';
+import { UserController } from '../../controllers/UserController';
+import { User } from '../../types';
+import { withStore } from '../../classes/Store';
+import { withRouter } from '../../classes';
+import { Routes } from '../../config';
 
 const template = `
   <div class="pofileForm">
     {{{ ProfileHeader }}}
-    {{{ ProfileData }}}
-    {{{ Actions }}}
+    <form class="pofileForm__form">
+      {{{ ProfileData }}}
+      {{#if readOnly }}
+        <section class="pofileForm__actions">
+      
+        {{{ ButtonLinkEditData }}}
+    
+        {{{ Divider1 }}}
+    
+        {{{ ButtonLinkChangePass }}}
+    
+        {{{ Divider2 }}}
+    
+        {{{ ButtonLinkChangeLogOut }}}
+    
+        </section>
+      {{ else }}
+        <section class="pofileForm__save">
+    
+          {{{ ButtonSave}}}
+          {{{ Divider3 }}}
+          {{{ ButtonCancel }}}
+        </section>
+      {{/if}}
+    </form>
   </div>
 `;
 
-const createDefaultActionsSection = () => {
-
-  const divider = Divider();
-  const ButtonLinkEditData = LinkButton({title: "Изменить данные", type: 'button', className: 'btn_link_medium'});
-  const ButtonLinkChangePass = LinkButton({title: "Изменить пароль", type: 'button', className: 'btn_link_medium'});
-  const ButtonLinkChangeLogOut = LinkButton({title: "Выйти", type: 'button', className: 'btn_link_danger btn_link_medium'});
-
-  const context = {
-    ButtonLinkEditData,
-    ButtonLinkChangePass,
-    ButtonLinkChangeLogOut,
-    Divider: divider
+class ProfileFormBase extends Component {
+  constructor(props: any) {
+    super(props);
   }
 
-  return Handlebars.compile(defaultActionsTemplate)(context);
-}
+  protected init() {
+    if (!this._props.events) {
+      this._props.events = {} as EventType;
+    }
+    this._props.events.submit= this.saveBtnOnClick;
 
-const createSaveActionsSection = () => {
+    const { user } = this._props;
+    this.children.Divider1 = new Divider();
+    this.children.Divider2 = new Divider();
+    this.children.Divider3 = new Divider();
+    this.children.ProfileHeader = new Header({
+      withName: true,
+    });
+    this.children.ProfileData = new ProfileData({
+      data: user,
+      mode: 'read',
+    });
 
-  const ButtonSave = PrimaryButton({title: "Сохранить", type: 'button', className: 'btn_large'});
-
-  const context = {
-    ButtonSave
+    this.children.ButtonLinkEditData = new LinkButton({
+      title: 'Изменить данные',
+      type: 'button',
+      className: 'btn_link_medium',
+      events: {
+        click: this.editBtnOnClick.bind(this),
+      } as EventType,
+    });
+    this.children.ButtonLinkChangePass = new LinkButton({
+      title: 'Изменить пароль',
+      type: 'link',
+      to: Routes.pofileChangePassword.url,
+      className: 'btn_link_medium',
+    });
+    this.children.ButtonLinkChangeLogOut = new LinkButton({
+      title: 'Выйти',
+      type: 'button',
+      className: 'btn_link_danger btn_link_medium',
+      events: {
+        click: this.logoutOnClick.bind(this)
+      } as EventType
+    });
+    this.children.ButtonSave = new PrimaryButton({
+      title: 'Сохранить',
+      type: 'submit',
+      className: 'btn_large',
+    });
+    this.children.ButtonCancel = new LinkButton({
+      title: 'Отменить изменения',
+      type: 'button',
+      className: 'btn_link_danger btn_link_medium',
+      events: {
+        click: function () {
+          this.setProps({
+            mode: 'read',
+          });
+          (this.children.ProfileData as ProfileData).setProps({
+            mode: 'read',
+          });
+        }.bind(this)
+      } as EventType
+    });
   }
 
-  return Handlebars.compile(saveActionsTemplate)(context);
+  protected render(): DocumentFragment {
+    console.log('profile rerender')
+    return this.compile(Handlebars.compile(template), {
+      ...this._props,
+      readOnly: this._props.mode === 'read',
+    });
+  }
+
+  public editBtnOnClick (e: Event) {
+    e.stopPropagation();
+    this.setProps({
+      mode: 'edit',
+    });
+    (this.children.ProfileData as ProfileData).setProps({
+      mode: 'edit',
+    });
+  };
+
+  saveBtnOnClick(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const formData = new FormData(e.target as HTMLFormElement);
+
+    // @ts-ignore
+    const newUserData = Object.fromEntries(formData) as User;
+
+    (new UserController()).updateProfile(newUserData).then(() => {
+      this.setProps({
+        mode: 'read',
+      });
+      (this.children.ProfileData as ProfileData).setProps({
+        data: newUserData,
+        mode: 'read',
+      });
+    })
+  };
+
+  logoutOnClick() {
+    (new UserController()).logout().then(()=>this.router?.go(Routes.login.url)).catch(()=>alert('Произошла ошибка'));
+  }
 }
-
-export const ProfileForm = ({
-  name,
-  avatar,
-  data
-}: ProfileFormProps) => {
-
-  const mode : ProfileMode = "read";
-  const avatarEl = Avatar({ src: avatar});
-
-  const headerEl = Handlebars.compile(headerTemplate)({
-    Avatar:avatarEl,
-    name: name
-  });
-
-  const ActionsSection = mode === "edit" ? createSaveActionsSection() : createDefaultActionsSection();
-
-  const profileDataHtml = ProfileData({data: data, mode: mode});
-  return Handlebars.compile(template)({
-    ProfileHeader:headerEl,
-    ProfileData: profileDataHtml,
-    Actions: ActionsSection
-  })
-}
+const profileWithProps = withStore((state) => ({ user: state.user }))
+export const ProfileForm = profileWithProps(withRouter(ProfileFormBase));

@@ -1,18 +1,25 @@
 import Handlebars from 'handlebars';
+import { Component } from '../../classes/component/Component';
+import { AvatarProps } from './types';
 import avatarNotDefined from './avatarNotDefined.svg';
+
 const template = `
-  <div class="avatar" name="avatar">
+  <label for="avatar_select" class="avatar">
+    <input type="file" class="avatar__input" id="avatar_select" />
     {{#if src}}
         <img src="{{src}}" class="avatar__image" alt="user avatar">
     {{else}}
         <img src="{{avatarNotDefined}}" alt="Default avatar image">
     {{/if}}
-  </div>
+   </label>
 `;
 
-interface AvatarProps {
-  src?: string
-}
-export const Avatar = ({ src }: AvatarProps) => {
-  return Handlebars.compile(template)({src: src, avatarNotDefined: avatarNotDefined});
+export class Avatar extends Component<AvatarProps> {
+  constructor(props: AvatarProps) {
+    super({ ...props, avatarNotDefined });
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile(template), this._props);
+  }
 }

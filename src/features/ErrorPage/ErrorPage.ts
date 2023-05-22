@@ -11,7 +11,7 @@ const pageTemplate = `
 
 class ErrorPage extends Component<ErrorCodeSectionProps> {
   constructor(props: ErrorCodeSectionProps) {
-    super('div', props);
+    super(props);
   }
 
   init() {

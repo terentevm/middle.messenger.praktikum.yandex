@@ -6,7 +6,7 @@ const template = '<div class="divider"></div>';
 
 export class Divider extends Component<ComponentPropType> {
   constructor() {
-    super('div', {});
+    super( {});
   }
 
   protected render(): DocumentFragment {

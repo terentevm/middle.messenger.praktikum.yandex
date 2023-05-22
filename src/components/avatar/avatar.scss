@@ -1,6 +1,7 @@
 .avatar {
-  height: 130px;
-  width: 130px;
+  position: relative;
+  height: inherit;
+  width: inherit;
   border-radius: 50%;
   position: relative;
   text-decoration: none;
@@ -10,6 +11,11 @@
   justify-content: center;
   align-items: center;
 
+  &__input {
+    position: absolute;
+    outline: none;
+    clip: rect(0,0,0,0);
+  }
   &__image {
     width: 100%;
     height: 100%;

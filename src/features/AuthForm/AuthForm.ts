@@ -19,7 +19,7 @@ export interface AuthFormProps extends ComponentPropType {
 }
 export class AuthForm extends Component<AuthFormProps> {
   constructor(props: AuthFormProps) {
-    super('form', props);
+    super(props);
   }
 
   protected override render() : DocumentFragment {
@@ -30,5 +30,7 @@ export class AuthForm extends Component<AuthFormProps> {
     const formData = new FormData(form);
 
     console.log(Object.fromEntries(formData));
+
+    return Object.fromEntries(formData);
   }
 }

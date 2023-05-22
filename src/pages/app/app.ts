@@ -15,7 +15,7 @@ const template = `
 
 export class App extends Component {
   constructor() {
-    super('nav', {});
+    super({});
   }
 
   protected render(): DocumentFragment {

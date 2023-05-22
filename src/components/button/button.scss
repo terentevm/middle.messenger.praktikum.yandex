@@ -12,6 +12,10 @@
   }
 }
 
+@mixin color-secondary{
+    color: colors.$color-secondary;
+}
+
 .btn {
   border-radius: 8px;
   border: none;
@@ -27,9 +31,16 @@
   &_primary {
     background: colors.$color-primary;
     color: colors.$color-white;
+
+    &:hover {
+      box-shadow: 0px 0px 10px 3px #3369F3;
+    }
   }
 
-  &_link {
+
+
+  &__link {
+    display: block;
     background: transparent;
     color: colors.$color-primary;
     padding: 0;
@@ -37,10 +48,26 @@
     font-weight: 500;
     font-size: 11px;
     line-height: 11px;
-
+    text-align: center;
     @include danger;
     @include medium;
+
+    &_secondary {
+      @include color-secondary;
+    }
   }
+  &_rounded {
+    border-radius: 50%;
+    padding: 9px 9px;
+  }
+
+  &_icon {
+    background: transparent;
+    border: none;
+    outline: none;
+    cursor: pointer;
+  }
+
 
   &_disabled {
     cursor: not-allowed;
@@ -49,4 +76,30 @@
   &_large {
     width: 280px;
   }
+
+  &_fw {
+    width: 100%;
+  }
+}
+.link__wrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+a:visited {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a:active {
+  text-decoration: none;
 }

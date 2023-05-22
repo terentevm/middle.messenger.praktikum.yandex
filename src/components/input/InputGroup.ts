@@ -23,7 +23,7 @@ const template = `
 
 class InputGroup extends Component<InputGroupProps> {
   constructor(props: InputGroupProps) {
-    super('label', { ...props, hasValue: false });
+    super({ ...props, hasValue: false });
   }
 
   protected init() {
@@ -56,6 +56,7 @@ class InputGroup extends Component<InputGroupProps> {
       } as EventType,
     });
 
+
     if (this._props.validate === true) {
       const events = this._props.events || {} as EventType;
       events.focusout = (e: Event) => {
@@ -67,6 +68,12 @@ class InputGroup extends Component<InputGroupProps> {
     }
   }
 
+  protected componentDidUpdate(oldProps?: InputGroupProps, newProps?: InputGroupProps): boolean {
+
+    (this.children.input as BaseInput).setProps({...newProps});
+
+    return true;
+  }
   protected render(): DocumentFragment {
     return this.compile(Handlebars.compile(template), { ...this._props });
   }

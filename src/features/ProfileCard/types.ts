@@ -1,10 +1,8 @@
 import { ComponentPropType } from '../../classes/component/types';
-import { Component } from '../../classes/component/Component';
+import { User } from '../../types';
 
 export interface HeaderProps extends ComponentPropType {
-  Avatar: Component;
   withName: boolean;
-  name?: string;
 }
 
 export type ProfileDataType = {
@@ -20,13 +18,11 @@ export type ProfileDataType = {
 export type ProfileMode = 'edit' | 'read';
 
 export interface ProfileDataProps extends ComponentPropType {
-  data: ProfileDataType;
+  data: User;
   mode: ProfileMode;
 }
 
 export interface ProfileFormProps extends ComponentPropType {
-  name?: string | undefined;
-  avatar?: string | undefined;
-  data: ProfileDataType;
+  user: User,
   mode: ProfileMode;
 }

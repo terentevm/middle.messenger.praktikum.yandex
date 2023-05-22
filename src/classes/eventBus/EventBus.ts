@@ -27,7 +27,8 @@ class EventBus implements IEventBus {
 
   emit(event: string, ...args: any[]): void {
     if (!this._listeners[event]) {
-      throw new Error(`Нет события: ${event}`);
+      console.log(`Нет подписчиков на событие: ${event}`);
+      return;
     }
 
     this._listeners[event].forEach((listener) => {

@@ -1,0 +1,21 @@
+.modal {
+  min-width: 100px;
+  max-width: 375px;
+  min-height: 100px;
+  background: #FFFFFF;
+  box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.14);
+  border-radius: 12px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding: 40px 30px;
+}
+
+.modal_visible {
+  display: block;
+}
+
+.modal_hidden {
+  display: none;
+}

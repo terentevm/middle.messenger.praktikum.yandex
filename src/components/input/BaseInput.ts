@@ -22,7 +22,9 @@ const template = `
     {{#if required}}
       required
     {{/if}}
-    
+    {{#if disabled}}
+      disabled
+    {{/if}}
     {{#if pattern}}
       pattern = "{{pattern}}"
     {{/if}}
@@ -31,7 +33,7 @@ const template = `
 
 export class BaseInput extends Component<InputProps> {
   constructor(props: InputProps) {
-    super('input', props);
+    super(props);
   }
 
   protected render(): DocumentFragment {

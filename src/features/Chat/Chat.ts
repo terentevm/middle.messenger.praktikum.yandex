@@ -1,5 +1,5 @@
 import Handlebars from 'handlebars';
-import { ChatList } from './ChatList';
+import { ChatAside } from './ChatAside';
 import { ChatContent } from './ChatContent';
 import { Component } from '../../classes';
 
@@ -12,8 +12,10 @@ const template = `
 
 export class Chat extends Component {
   protected init() {
-    this.children.chatList = new ChatList();
-    this.children.chatContent = new ChatContent();
+
+    this.children.chatList = new ChatAside({});
+    this.children.chatContent = new ChatContent({});
+
   }
 
   protected render(): DocumentFragment {

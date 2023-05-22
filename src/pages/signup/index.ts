@@ -5,6 +5,9 @@ import { LoginInput } from '../../components/input';
 import { AuthForm } from '../../features/AuthForm/AuthForm';
 import { EventType } from '../../classes/component/types';
 import { rules } from '../../utils/validationRules';
+import { UserController } from '../../controllers/UserController';
+import { withRouter } from '../../classes';
+import { Routes } from '../../config';
 
 const formContentTemplate = `
   <div class="authForm__content">
@@ -140,7 +143,7 @@ class FormActions extends Component {
 
     this.children.buttonLink = new LinkButton({
       title: 'Войти',
-      type: 'button',
+      to: Routes.login.url,
     });
   }
 
@@ -149,17 +152,35 @@ class FormActions extends Component {
   }
 }
 
-const SignUpPage = new AuthForm({
-  title: 'Регистрация',
-  formContent: new FormContent(),
-  formActions: new FormActions(),
-  events: {
-    submit: (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      AuthForm.getData(e.target as HTMLFormElement);
-    },
-  } as EventType,
-});
+class SignUpPage extends Component{
+  constructor(props: any) {
+    super(props);
+  }
 
-export { SignUpPage };
+  init() {
+    this.children.authFrom = new AuthForm({
+      title: 'Регистрация',
+      formContent: new FormContent(),
+      formActions: new FormActions(),
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const userData = AuthForm.getData(e.target as HTMLFormElement);
+          (new UserController()).register(userData).then(()=>{
+            this.router && this.router.go(Routes.login.url);
+          }).catch((err => {
+            console.error(err);
+            alert('Ошибка Http запроса');
+          }));
+        }
+      } as EventType,
+    });
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile('{{{ authFrom }}}'), this._props);
+  }
+}
+
+export default withRouter(SignUpPage);

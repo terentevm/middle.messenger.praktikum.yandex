@@ -1,0 +1,35 @@
+@use 'src/styles/_colors';
+.chatSearch {
+  width: 100%;
+  height: 32px;
+  background-color: colors.$color-chat-search;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-image: url("../images/search.svg");
+  background-position: 43% center;
+  background-repeat: no-repeat;
+  text-indent: 20px;
+
+  input:focus {
+    background-image: none;
+  }
+}
+
+.chatSearch::placeholder {
+
+  text-align: center;
+}
+
+.chatSearch:focus {
+  background-image: none;
+}
+
+.chatSearch:valid:not(:placeholder-shown){
+  background-image: none;
+}

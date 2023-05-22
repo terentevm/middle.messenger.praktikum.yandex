@@ -12,11 +12,11 @@ const template = `
 
 export class ContainerWithBackPanel extends Component<ContainerWithBackPanelType> {
   constructor(props: ContainerWithBackPanelType) {
-    super('div', props);
+    super(props);
   }
 
   protected init() {
-    this.children.backAside = new BackAside();
+    this.children.backAside = new BackAside({});
   }
 
   protected render(): DocumentFragment {

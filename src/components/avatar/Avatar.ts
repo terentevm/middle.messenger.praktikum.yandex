@@ -4,8 +4,8 @@ import { AvatarProps } from './types';
 import avatarNotDefined from './avatarNotDefined.svg';
 
 const template = `
-  <label for="avatar_select" class="avatar">
-    <input type="file" class="avatar__input" id="avatar_select" />
+  <label for="{{ id }}" class="avatar">
+    <input type="file" class="avatar__input" id="{{ id }}" />
     {{#if src}}
         <img src="{{src}}" class="avatar__image" alt="user avatar">
     {{else}}
@@ -16,7 +16,10 @@ const template = `
 
 export class Avatar extends Component<AvatarProps> {
   constructor(props: AvatarProps) {
+    console.log(props);
     super({ ...props, avatarNotDefined });
+
+
   }
 
   protected render(): DocumentFragment {

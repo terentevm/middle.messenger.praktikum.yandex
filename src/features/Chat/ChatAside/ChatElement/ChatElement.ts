@@ -3,6 +3,7 @@ import { Component } from '../../../../classes';
 import { Chat } from '../../../../types';
 import { Avatar } from '../../../../components/avatar';
 import { ComponentPropType } from '../../../../classes/component/types';
+import { getFullFileUrl } from '../../../../utils/common';
 
 const template = `
   <li class="{{ className }}">
@@ -34,8 +35,10 @@ export class ChatElement extends Component<IChatElementProps> {
   }
 
   protected init() {
+
     this.children.avatar = new Avatar({
-      src: this._props.avatar,
+      src: getFullFileUrl(this._props.avatar),
+      id: `avatar_chat_${this._props.id}`
     });
 
     this.setProps({

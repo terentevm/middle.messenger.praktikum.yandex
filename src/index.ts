@@ -48,6 +48,8 @@ window.addEventListener('DOMContentLoaded', async () => {
   router.use(Routes.serverError.url, Page500);
   if (isProtectedRoute && !isAuth) {
     router.go(Routes.login.url);
+  } else if ((path === Routes.login.url || path === Routes.signup.url) &&  isAuth) {
+    router.go(Routes.main.url);
   }
   router.start();
 });

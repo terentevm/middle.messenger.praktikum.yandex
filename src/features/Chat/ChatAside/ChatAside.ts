@@ -35,14 +35,13 @@ class ChatListBase extends Component {
       events: { submit: this.onCreateChatSubmitHandler.bind(this) } as EventType
     });
 
-    this.children.modalAddChat = new Modal({ visible: false, content: newChatForm });
-    // store.on(StoreEvents.Updated, () => {
-    //   console.log('chat list updated');
-    //   console.log(store.getState().chatList)
-    //   this.setProps({
-    //     chatList: store.getState().chatList
-    //   })
-    // })
+    this.children.modalAddChat = new Modal({
+      visible: false,
+      content: newChatForm,
+      onClose: () => {
+        this.changeModalVisibility(false);
+      }
+    });
   }
 
   protected render(): DocumentFragment {
@@ -56,9 +55,6 @@ class ChatListBase extends Component {
   }
 
   onAddNewChat() {
-
-    console.log('on add new chat func');
-
     this.changeModalVisibility(true);
   }
 
@@ -71,6 +67,7 @@ class ChatListBase extends Component {
       ChatController.all();
     });
   }
+
 };
 
 const componentWithState = withStore(state => {chatList: state.chatList})

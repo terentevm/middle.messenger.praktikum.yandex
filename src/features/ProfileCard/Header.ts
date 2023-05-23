@@ -5,9 +5,9 @@ import { store, withStore } from '../../classes/Store';
 import { UserController } from '../../controllers/UserController';
 import { User } from '../../types';
 import { Avatar } from '../../components/avatar';
-import { FileURL } from '../../classes/connector/Connector';
 import { EventType } from '../../classes/component/types';
 import { StoreEvents } from '../../classes/Store/Store';
+import { getFullFileUrl } from '../../utils/common';
 
 const template = `
   <section class="pofileForm__header">
@@ -16,7 +16,7 @@ const template = `
     </div>
     
     {{#if withName}}
-      <h4 class="pofileForm__name">{{ name }}</h4>
+      <h4 class="pofileForm__name">{{ user.first_name }}</h4>
     {{/if}}
     
   </section>
@@ -30,7 +30,8 @@ class HeaderBase extends Component<HeaderProps & { user: User}> {
   protected init() {
     const { user } = this._props;
     this.children.Avatar = new Avatar({
-      src: this.getFullFileUrl(user.avatar),
+      src: getFullFileUrl(user.avatar),
+      id: 'avatar_profile',
       events: {
         change: this.avatarOnChange.bind(this)
       } as EventType
@@ -39,8 +40,8 @@ class HeaderBase extends Component<HeaderProps & { user: User}> {
     store.on(StoreEvents.Updated, () => {
       const user = store.getState().user;
       (this.children.Avatar as Avatar).setProps({
-          src: this.getFullFileUrl(user.avatar)
-        })
+          src: getFullFileUrl(user.avatar)
+      });
     })
   }
 
@@ -56,12 +57,6 @@ class HeaderBase extends Component<HeaderProps & { user: User}> {
 
       (new UserController()).updateAvatar(formData).catch(()=>alert('Не удалось обновить аватар'));
     }
-  }
-
-  getFullFileUrl(urlFromApi: string | null) {
-    if (!urlFromApi) return undefined;
-
-    return `${FileURL}${urlFromApi}`;
   }
 }
 

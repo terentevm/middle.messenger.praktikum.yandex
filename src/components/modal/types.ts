@@ -5,4 +5,5 @@ export interface IModal extends ComponentPropType {
   content?: Component | null;
   visible: boolean;
   className?: string;
+  onClose?: () => void;
 }

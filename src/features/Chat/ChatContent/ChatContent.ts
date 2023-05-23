@@ -82,12 +82,14 @@ class ChatContentBase extends Component {
 
     if (oldChatId !==  newChatId) {
       if (oldChatId) {
-        console.log(`Закрыть соединение с чатом ${newProps.currentChat.id}`);
+        //console.log(`Закрыть соединение с чатом ${newProps.currentChat?.id}`);
         MessageController.onClose(oldChatId);
       }
 
-      console.log(`Устанавливаем новый чат ${newProps.currentChat.id}`);
-      this.setChat(newProps.currentChat);
+
+      if (newProps.currentChat) {
+        this.setChat(newProps.currentChat);
+      }
     }
 
     //перерисовка сообщений
@@ -97,10 +99,6 @@ class ChatContentBase extends Component {
       const _messagesNew = newProps.messages&& Array.isArray(newProps.messages[newProps.currentChat.id]) ? newProps.messages[newProps.currentChat.id] : [];
 
       if (_messagesNew.length !== _messagesOld.length) {
-        console.log('Need to rerender messages');
-        console.log(_messagesOld);
-        console.log(_messagesNew);
-        console.log(this._props);
         (this.children.Messages as Messages).setProps({
           messages: _messagesNew,
           user: this._props.user,
@@ -134,6 +132,7 @@ class ChatContentBase extends Component {
     if (message) {
       const escapedStr = new Option(message).innerHTML;
       MessageController.sendMessage(this._props.currentChat.id, escapedStr);
+      (this.children.inputMsg as BaseInput).setProps({value: ''});
     }
   }
 }

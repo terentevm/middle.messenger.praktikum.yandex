@@ -52,7 +52,10 @@ class MessageController {
     if (!socket) {
       throw new Error(`Chat ${chatId} is not connected`);
     }
-
+    store.updateState({
+      ...store.getState(),
+      messages: []
+    });
     socket.send({type: 'get old', content: '0'});
   }
 

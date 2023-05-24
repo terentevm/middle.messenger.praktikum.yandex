@@ -1,4 +1,5 @@
 @use "src/styles/colors";
+
 .modal {
   min-width: 100px;
   max-width: 375px;
@@ -17,6 +18,7 @@
     top: 10px;
     right: 10px;
     cursor: pointer;
+
     &:hover {
       transform: scale(1.1, 1.1);
     }

@@ -45,6 +45,6 @@ export class BaseInput extends Component<InputProps> {
   }
 
   checkValidity() {
-    return (this.element as HTMLInputElement).checkValidity();
+   return (this.element as HTMLInputElement).checkValidity();
   }
 }

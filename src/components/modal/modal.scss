@@ -1,3 +1,5 @@
+@use "src/styles/colors";
+
 .modal {
   min-width: 100px;
   max-width: 375px;
@@ -10,6 +12,17 @@
   top: 50%;
   transform: translate(-50%, -50%);
   padding: 40px 30px;
+
+  &__close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+
+    &:hover {
+      transform: scale(1.1, 1.1);
+    }
+  }
 }
 
 .modal_visible {

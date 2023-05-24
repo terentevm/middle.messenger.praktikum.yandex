@@ -4,7 +4,6 @@ import { InputGroup, ProfileInput } from '../../components/input';
 import { Divider } from '../../components/divider';
 import { Component } from '../../classes/component/Component';
 import { rules } from '../../utils/validationRules';
-import { User } from '../../types';
 
 const template = `
   <section class="pofileForm__data">
@@ -129,7 +128,7 @@ export class ProfileData extends Component<ProfileDataProps> {
     this.children.Divider5 = new Divider();
   }
 
-  protected componentDidUpdate(oldProps?: ProfileDataProps, newProps?: ProfileDataProps): boolean {
+  protected componentDidUpdate(_oldProps?: ProfileDataProps, newProps?: ProfileDataProps): boolean {
 
     if (newProps) {
       const inputs = Object.values(this.children).filter((value: Component) => value instanceof InputGroup);

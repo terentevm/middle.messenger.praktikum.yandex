@@ -15,7 +15,7 @@ const template = `
     <div class="input__block">
     {{{ input }}}
     {{#if error}}
-      <p class="input__error">{{error}}</p>
+      <p class="input__error">{{onErrorMsg}}</p>
     {{/if}}
     </div>
   </div>
@@ -37,10 +37,13 @@ class InputGroup extends Component<InputGroupProps> {
       ...this._props,
       className: this._props.inputClassName,
       events: {
-        invalid: () => {
-          const errMsg = this._props.onErrorMsg || 'Введены ошибочные данные!';
-          this.setProps({ error: errMsg });
-        },
+        // invalid: () => {
+        //   const errMsg = this._props.onErrorMsg || 'Введены ошибочные данные!';
+        //   console.log('invalid event');
+        //   console.log(this._props);
+        //   this.setProps({ error: errMsg });
+        //   (this.children.input as BaseInput).setProps({ className: this._props.inputClassName})
+        // },
         input: (e: Event) => {
           e.stopPropagation();
 
@@ -61,6 +64,7 @@ class InputGroup extends Component<InputGroupProps> {
       const events = this._props.events || {} as EventType;
       events.focusout = (e: Event) => {
         e.stopPropagation();
+        console.log('stop');
         this.validate();
       };
 
@@ -68,21 +72,29 @@ class InputGroup extends Component<InputGroupProps> {
     }
   }
 
-  protected componentDidUpdate(oldProps?: InputGroupProps, newProps?: InputGroupProps): boolean {
+  protected componentDidUpdate(_oldProps?: InputGroupProps, newProps?: InputGroupProps): boolean {
 
-    (this.children.input as BaseInput).setProps({...newProps});
+    (this.children.input as BaseInput).setProps({
+      ...newProps,
+      className: newProps?.inputClassName,
+    });
 
     return true;
   }
+
   protected render(): DocumentFragment {
     return this.compile(Handlebars.compile(template), { ...this._props });
   }
 
   validate() : boolean {
+
     const isValid = (this.children.input as BaseInput).checkValidity();
 
     if (isValid && this._props.error !== '') {
       this.setProps({ error: '' });
+    }
+    if (!isValid) {
+      this.setProps({ error: 'error' });
     }
 
     return isValid;

@@ -38,10 +38,12 @@ export class Connector {
       };
 
       const contentType = headers['Content-Type'] ? headers['Content-Type'] : 'application/json';
-
-      if (method.toUpperCase() === 'POST' || method.toUpperCase() === 'PUT' && contentType === 'application/json') {
-        this.xhr.setRequestHeader('Content-Type', contentType);
+      if (!(data instanceof FormData)) {
+        if (method.toUpperCase() === 'POST' || method.toUpperCase() === 'PUT' || method.toUpperCase() === 'DELETE' && contentType === 'application/json') {
+          this.xhr.setRequestHeader('Content-Type', contentType);
+        }
       }
+
 
       this.xhr.withCredentials = true;
 
@@ -61,6 +63,9 @@ export class Connector {
   }
 
   private getRequestBody(data: any, contentType: string = 'application/json') {
+    if (data instanceof FormData) {
+      return data;
+    }
     switch (contentType) {
       case 'multipart/form-data':
         return data;
@@ -94,6 +99,6 @@ export class Connector {
   }
 
   public sendFile(url: string, method: string, form: FormData) {
-    return this.sendRequest(url, method, form, {'Content-Type': 'multipart/form-data'})
+    return this.sendRequest(url, method, form)
   }
 }

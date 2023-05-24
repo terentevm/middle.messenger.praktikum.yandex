@@ -29,8 +29,8 @@ export class UserController {
   }
 
   async updateProfile(user: User): Promise<void> {
-     await this.api.put(HTTP_API_ENUM.updateProfile, user);
-     store.updateState({ user: user});
+     const resUser = await this.api.put(HTTP_API_ENUM.updateProfile, user);
+     store.updateState({ user: resUser});
   }
 
   async changePassword(passwordData: { oldPassword: string, newPassword: string}): Promise<void> {

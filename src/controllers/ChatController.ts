@@ -22,7 +22,7 @@ class ChatController {
   }
 
   delete(chatId: number) {
-    return this.api.delete(HTTP_API_ENUM.chatRest, { chatId});
+    return this.api.delete(HTTP_API_ENUM.chatRest, { "chatId": chatId });
   }
 
   getChatToken(chatId: number) {
@@ -40,6 +40,19 @@ class ChatController {
         userId
       ]
     });
+  }
+
+  removeUsersFromChat(chatId: number, userId: number) {
+    return this.api.delete(HTTP_API_ENUM.addUserToChat, {
+      chatId: chatId,
+      users: [
+        userId
+      ]
+    });
+  }
+
+  updateChatAvatar(avatarData: FormData) {
+    return this.api.sendFile(HTTP_API_ENUM.updateChatAvatar, 'PUT', avatarData)
   }
 }
 

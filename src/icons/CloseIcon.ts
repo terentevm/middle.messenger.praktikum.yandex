@@ -2,7 +2,7 @@ import{ Icon } from './types';
 import { Component } from '../classes';
 
 const template = `
-<svg
+<svg 
 {{#if className}}
    class= {{ className }}
  {{/if}}
@@ -13,9 +13,9 @@ width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/
 </svg>
 `;
 
-export class CloseRounded extends Component<Icon> {
-  constructor({width='24', height='24', color='#3369F3', className}: Icon) {
-    super({width, height, color, className});
+export class CloseIcon extends Component<Icon> {
+  constructor({width='24', height='24', color='#3369F3', ...props}: Icon) {
+    super({width, height, color, ...props});
   }
 
   protected render(): DocumentFragment {

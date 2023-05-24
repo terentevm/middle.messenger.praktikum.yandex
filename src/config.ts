@@ -10,28 +10,29 @@ export enum HTTP_API_ENUM {
   //chats api
   chatRest = '/chats',
   chatGetToken = '/chats/token',
-  addUserToChat = '/chats/users'
+  addUserToChat = '/chats/users',
+  updateChatAvatar = '/chats/avatar'
 }
 
 export const Routes: {[key: string] : { url: string; protected: boolean;}} =  {
   main: {
-    url: '/',
+    url: '/messanger',
     protected: true,
   },
   login: {
-    url: '/login',
+    url: '/',
     protected: false,
   },
   signup: {
-    url: '/signup',
+    url: '/sign-up',
     protected: false,
   },
   profile: {
-    url: '/profile',
-    protected: false,
+    url: '/settings',
+    protected: true,
   },
   pofileChangePassword: {
-    url: '/profile/change-password',
+    url: '/settings/change-password',
     protected: false,
   },
   notFound: {

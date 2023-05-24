@@ -13,6 +13,7 @@
 @import "src/features/ContainerWithBackPanel/containerProfile";
 @import "src/features/BackAside/backAside";
 @import "src/features/ProfileCard/profileForm";
+@import "src/features/Chat/chat";
 @import "../features/Chat/ChatAside/ChatList/chatList";
 @import "../features/Chat/ChatAside/chatList";
 @import "../features/Chat/ChatAside/ChatElement/chatElement";
@@ -21,7 +22,6 @@
 @import "../features/Chat/ChatAside/NewChatForm/newChatForm";
 @import "src/features/Chat/ChatContent/chatContent";
 @import "src/features/Chat/ChatContent/Messages/message";
-@import "src/features/Chat/chat";
 @import "src/features/Chat/ChatContent/UserForm/userForm";
 @import "src/pages/app/app";
 @import 'https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap';

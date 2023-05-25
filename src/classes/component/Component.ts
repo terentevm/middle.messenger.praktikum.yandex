@@ -1,9 +1,11 @@
 import { v4 as makeUUID } from 'uuid';
+import Handlebars from 'handlebars';
 import { EventBus } from '../eventBus';
 import { IEventBus } from '../eventBus/types';
 import {
   EventsMapType, ComponentPropType, ChildrenType, EventType,
 } from './types';
+import { Router } from '../router';
 
 class Component<PropType extends ComponentPropType = any> {
   eventBus: () => IEventBus;
@@ -18,6 +20,8 @@ class Component<PropType extends ComponentPropType = any> {
 
   tagName: string;
 
+  router: Router | null;
+
   static EVENTS : EventsMapType = {
     INIT: 'init',
     FLOW_CDM: 'flow:component-did-mount',
@@ -25,14 +29,13 @@ class Component<PropType extends ComponentPropType = any> {
     FLOW_RENDER: 'flow:render',
   };
 
-  constructor(tagName = 'div', propsWithChildren: PropType = {} as PropType) {
+  constructor(propsWithChildren: PropType = {} as PropType) {
     this._id = makeUUID();
-    const { props, children } = this._getChildrenAndProps(propsWithChildren);
+    const { props, children, router } = this._getChildrenAndProps(propsWithChildren);
 
     this._props = this.createProxy(props);
     this.children = children;
-
-    this.tagName = tagName;
+    this.router = router;
     const eventBus = new EventBus();
     this.eventBus = () => eventBus;
 
@@ -43,18 +46,22 @@ class Component<PropType extends ComponentPropType = any> {
   private _getChildrenAndProps = (propsWithChildren: PropType) => {
     const props: PropType = {} as PropType;
     const children: ChildrenType = {};
+    let router: Router | null = null;
+
     Object.entries(propsWithChildren).forEach(([key, value]) => {
       if (Array.isArray(value) && value.length > 0
         && value.every((val) => val instanceof Component)) {
         children[key as string] = value;
       } else if (value instanceof Component) {
         children[key as string] = value;
+      } else if (value instanceof Router) {
+        router = value;
       } else {
         props[key as keyof typeof propsWithChildren] = value;
       }
     });
 
-    return { props, children };
+    return { props, children, router };
   };
 
   _registerEvents(eventBus: EventBus) {
@@ -62,10 +69,6 @@ class Component<PropType extends ComponentPropType = any> {
     eventBus.on(Component.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
     eventBus.on(Component.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Component.EVENTS.FLOW_RENDER, this._render.bind(this));
-  }
-
-  _createResources() {
-    this.element = this._createDocumentElement(this.tagName);
   }
 
   private _init() {
@@ -81,7 +84,7 @@ class Component<PropType extends ComponentPropType = any> {
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected componentDidMount(oldProps?: PropType) {}
+  protected componentDidMount(_oldProps?: PropType) {}
 
   dispatchComponentDidMount() {
     this.eventBus().emit(Component.EVENTS.FLOW_CDM);
@@ -101,14 +104,12 @@ class Component<PropType extends ComponentPropType = any> {
     }
 
     this._removeEvents();
+    this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
 
-    if (this.componentDidUpdate(oldProps, newProps)) {
-      this.eventBus().emit(Component.EVENTS.FLOW_RENDER);
-    }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected componentDidUpdate(oldProps?: PropType, newProps?: PropType) : boolean {
+  protected componentDidUpdate(_oldProps?: PropType, _newProps?: PropType) : boolean {
     return true;
   }
 
@@ -128,7 +129,6 @@ class Component<PropType extends ComponentPropType = any> {
 
   _addEvents = () => {
     const events = this._props?.events || {} as EventType;
-
     Object.keys(events).forEach((eventName: keyof GlobalEventHandlersEventMap) => {
       this.element?.addEventListener(eventName, events[eventName]);
     });
@@ -160,12 +160,16 @@ class Component<PropType extends ComponentPropType = any> {
     return new DocumentFragment();
   }
 
+  renderTemplate(template: string, props?: PropType) {
+    return this.compile(Handlebars.compile(template), props ? props : this._props);
+  }
+
   compile = (template: (context: any) => string, context: any) => {
     const contextAndStubs = { ...context };
 
     Object.entries(this.children).forEach(([name, component]) => {
       if (Array.isArray(component)) {
-        contextAndStubs[name] = component.map((child) => `<div data-id="${child.getId()}"></div>`);
+        contextAndStubs[name] = component.map((child) => `<div data-id="${child.getId()}"></div>`).join('');
       } else {
         contextAndStubs[name] = `<div data-id="${component.getId()}"></div>`;
       }
@@ -218,7 +222,7 @@ class Component<PropType extends ComponentPropType = any> {
         const oldTarget = { ...target };
         target[prop as keyof typeof target] = newVal;
         if (this.element) {
-          console.log(`changed prop: ${prop as string} emit rerender `);
+         // console.log(`changed prop: ${prop as string} emit rerender `);
           this.eventBus().emit(Component.EVENTS.FLOW_CDU, oldTarget, target);
         }
 
@@ -227,7 +231,7 @@ class Component<PropType extends ComponentPropType = any> {
       get: (target, prop) => {
         if (typeof target[prop] === 'function') {
           return target[prop].bind(this);
-        } if (typeof target[prop] === 'object') {
+        } if (typeof target[prop] === 'object' && target[prop]) {
           return this.createProxy(target[prop]);
         }
         return target[prop];
@@ -253,6 +257,19 @@ class Component<PropType extends ComponentPropType = any> {
   toggleClass(className: string) {
     if (this.element instanceof HTMLElement) {
       this.element.classList.toggle(className);
+    }
+  }
+
+  show() {
+    if (this.element) {
+      this.element.style.display = 'block';
+    }
+
+  }
+
+  hide() {
+    if (this.element) {
+      this.element.style.display = 'none';
     }
   }
 }

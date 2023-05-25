@@ -9,8 +9,8 @@ const template = `
 `;
 
 class Badge extends Component<BadgeProps> {
-  constructor({ type = 'primary', content = '', size = 'small' }: BadgeProps) {
-    super('div', { type, content, size });
+  constructor({ type = 'primary', content = '', size = 'small', ...props }: BadgeProps) {
+    super({ type, content, size, ...props });
   }
 
   protected render(): DocumentFragment {

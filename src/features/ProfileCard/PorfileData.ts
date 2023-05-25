@@ -1,6 +1,6 @@
 import Handlebars from 'handlebars';
 import { ProfileDataProps } from './types';
-import { ProfileInput } from '../../components/input';
+import { InputGroup, ProfileInput } from '../../components/input';
 import { Divider } from '../../components/divider';
 import { Component } from '../../classes/component/Component';
 import { rules } from '../../utils/validationRules';
@@ -24,12 +24,13 @@ const template = `
 
 export class ProfileData extends Component<ProfileDataProps> {
   constructor(props: ProfileDataProps) {
-    super('section', props);
+    super(props);
   }
 
   protected init() {
+
     const {
-      email, login, firstName, secondName, displayName, phone,
+      email, login, first_name, second_name, display_name, phone,
     } = this._props.data;
 
     this.children.emailInput = ProfileInput({
@@ -69,7 +70,7 @@ export class ProfileData extends Component<ProfileDataProps> {
       label: 'Имя',
       placeholder: 'Имя',
       error: '',
-      value: firstName,
+      value: first_name,
       validate: true,
       required: true,
       pattern: rules.firstName,
@@ -84,7 +85,7 @@ export class ProfileData extends Component<ProfileDataProps> {
       label: 'Фамилия',
       placeholder: 'Фамилия',
       error: '',
-      value: secondName,
+      value: second_name,
       validate: true,
       required: true,
       pattern: rules.secondName,
@@ -98,7 +99,7 @@ export class ProfileData extends Component<ProfileDataProps> {
       label: 'Имя в чате',
       placeholder: 'Имя в чате',
       error: '',
-      value: displayName,
+      value: display_name,
       validate: true,
       required: true,
       pattern: rules.secondName,
@@ -125,6 +126,24 @@ export class ProfileData extends Component<ProfileDataProps> {
     this.children.Divider3 = new Divider();
     this.children.Divider4 = new Divider();
     this.children.Divider5 = new Divider();
+  }
+
+  protected componentDidUpdate(_oldProps?: ProfileDataProps, newProps?: ProfileDataProps): boolean {
+
+    if (newProps) {
+      const inputs = Object.values(this.children).filter((value: Component) => value instanceof InputGroup);
+
+      inputs.forEach((input: Component) => {
+        const inputName = input._props.name as string;
+
+        input.setProps({
+          disabled: newProps?.mode === 'read',
+          value: newProps.data [inputName]
+        });
+      })
+    }
+
+    return false;
   }
 
   protected render(): DocumentFragment {

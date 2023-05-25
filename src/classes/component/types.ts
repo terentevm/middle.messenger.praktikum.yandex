@@ -1,4 +1,5 @@
 import { Component } from './Component';
+import { Router } from '../router';
 
 type EventNames = keyof GlobalEventHandlersEventMap;
 
@@ -8,6 +9,7 @@ export type EventType = {
 
 export interface ComponentPropType {
   events?: EventType;
+  router?: Router;
   [index: string]: any;
 }
 

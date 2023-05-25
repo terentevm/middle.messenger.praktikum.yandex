@@ -5,6 +5,9 @@ import { LoginInput } from '../../components/input';
 import { AuthForm } from '../../features/AuthForm/AuthForm';
 import { EventType } from '../../classes/component/types';
 import { rules } from '../../utils/validationRules';
+import { withRouter } from '../../classes';
+import { Routes } from '../../config';
+import { UserController } from '../../controllers/UserController';
 
 const formContentTemplate = `
   <div class="authForm__content">
@@ -65,7 +68,8 @@ class FormActions extends Component {
 
     this.children.buttonLink = new LinkButton({
       title: 'Нет аккаунта?',
-      type: 'button',
+      to: Routes.signup.url,
+      type: 'button'
     });
   }
 
@@ -74,17 +78,35 @@ class FormActions extends Component {
   }
 }
 
-const LoginPage = new AuthForm({
-  title: 'Вход',
-  formContent: new FormContent(),
-  formActions: new FormActions(),
-  events: {
-    submit: (e: Event) => {
-      e.preventDefault();
-      e.stopPropagation();
-      AuthForm.getData(e.target as HTMLFormElement);
-    },
-  } as EventType,
-});
+class LoginPage extends Component {
+  constructor(props: any) {
+    super(props);
+  }
 
-export { LoginPage };
+  init() {
+    this.children.authFrom = new AuthForm({
+      title: 'Вход',
+      formContent: new FormContent(),
+      formActions: new FormActions(),
+      events: {
+        submit: (e: Event) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const userData = AuthForm.getData(e.target as HTMLFormElement);
+          (new UserController().login(userData)).then(()=>{
+            this.router && this.router.go(Routes.profile.url);
+          }).catch((err => {
+            console.error(err);
+            alert('Ошибка Http запроса');
+          }));
+        },
+      } as EventType,
+    });
+  }
+
+  protected render(): DocumentFragment {
+    return this.compile(Handlebars.compile('{{{ authFrom }}}'), this._props);
+  }
+
+}
+export default withRouter(LoginPage);

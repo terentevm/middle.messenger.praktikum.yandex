@@ -16,7 +16,7 @@ const template = `
 
 export class Label extends Component<LabelPropType> {
   constructor(props: LabelPropType) {
-    super('label', props);
+    super(props);
   }
 
   protected render(): DocumentFragment {

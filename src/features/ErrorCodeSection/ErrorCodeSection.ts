@@ -12,7 +12,7 @@ const template = `
 
 class ErrorCodeSection extends Component<ErrorCodeSectionProps> {
   constructor(props: ErrorCodeSectionProps) {
-    super('section', props);
+    super(props);
   }
 
   protected render(): DocumentFragment {

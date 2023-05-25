@@ -1,0 +1,28 @@
+.tooltip {
+  position: relative;
+
+  &__content {
+    position: absolute;
+    width: 210px;
+    background: #FFF;
+    border-radius: 12px;
+    z-index: 1;
+    right: 0;
+    margin-top: 25px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0s;
+    box-shadow: 0 0 6px rgba(0 0 0 / 14%);
+  }
+
+  &_hidden {
+    opacity: 0;
+  }
+
+  &_visible {
+    opacity: 1
+  }
+}

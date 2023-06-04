@@ -4,6 +4,7 @@ import { InputGroup, ProfileInput } from '../../components/input';
 import { Divider } from '../../components/divider';
 import { Component } from '../../classes/component/Component';
 import { rules } from '../../utils/validationRules';
+import { User } from '../../types';
 
 const template = `
   <section class="pofileForm__data">
@@ -134,7 +135,7 @@ export class ProfileData extends Component<ProfileDataProps> {
       const inputs = Object.values(this.children).filter((value: Component) => value instanceof InputGroup);
 
       inputs.forEach((input: Component) => {
-        const inputName = input._props.name as string;
+        const inputName = input._props.name as keyof User;
 
         input.setProps({
           disabled: newProps?.mode === 'read',

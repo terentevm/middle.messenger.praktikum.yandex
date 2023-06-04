@@ -1,30 +1,40 @@
 {
-  "name": "messanger",
+  "name": "my-webpack-project",
   "scripts": {
-    "dev": "parcel index.html  --no-cache --public-url / --open",
-    "build": "parcel build index.html --no-cache",
-    "start": "parcel build index.html --no-cache & node app.js"
+    "build": "webpack --mode=production --node-env=production",
+    "start": "webpack --mode=production --node-env=production --no-cache & node app.js",
+    "build:prod": "webpack --mode=production --node-env=production",
+    "watch": "webpack --watch",
+    "serve": "webpack serve"
   },
   "source": "index.html",
   "devDependencies": {
     "@parcel/transformer-inline-string": "2.8.3",
+    "@types/chai": "^4.3.5",
+    "@types/mocha": "^10.0.1",
     "@types/uuid": "^9.0.1",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
+    "@webpack-cli/generators": "^3.0.4",
+    "chai": "^4.3.7",
+    "css-loader": "^6.7.3",
     "eslint": "^8.36.0",
     "eslint-config-airbnb": "^19.0.4",
-    "parcel": "2.8.3",
-    "parcel-plugin-handlebars": "0.4.4",
-    "parcel-transformer-handlebars": "1.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "mocha": "^10.2.0",
+    "sass": "^1.58.3",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
     "stylelint": "^15.3.0",
     "stylelint-config-standard-scss": "^7.0.1",
-    "typescript": "^4.9.5"
+    "ts-loader": "^9.4.3",
+    "typescript": "^4.9.5",
+    "webpack": "^5.84.1",
+    "webpack-cli": "^5.1.1",
+    "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
-    "@parcel/transformer-sass": "2.8.3",
-    "@parcel/transformer-svg": "2.8.3",
-    "@parcel/transformer-typescript-tsc": "2.8.3",
-    "@partiellkorrekt/parcel-transformer-handlebars": "1.0.3",
     "eslint-config-airbnb-base": "^15.0.0",
     "express": "4.18.2",
     "handlebars": "4.7.7",
@@ -32,5 +42,7 @@
     "stylelint-config-standard": "^31.0.0",
     "stylelint-scss": "^4.6.0",
     "uuid": "^9.0.0"
-  }
+  },
+  "version": "1.0.0",
+  "description": "My webpack project"
 }

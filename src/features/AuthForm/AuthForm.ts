@@ -28,9 +28,14 @@ export class AuthForm extends Component<AuthFormProps> {
 
   static getData(form: HTMLFormElement) {
     const formData = new FormData(form);
+    const entries: Array<[string, any]> = [];
 
-    console.log(Object.fromEntries(formData));
+  // @ts-ignore
+    for (const key of formData.keys()) {
+      const value = formData.get(key);
+      entries.push([key, value]);
+    }
 
-    return Object.fromEntries(formData);
+    return Object.fromEntries(entries);
   }
 }

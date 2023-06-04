@@ -144,6 +144,7 @@ class FormActions extends Component {
     this.children.buttonLink = new LinkButton({
       title: 'Войти',
       to: Routes.login.url,
+      type: 'button'
     });
   }
 

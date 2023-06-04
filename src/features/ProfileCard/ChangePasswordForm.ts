@@ -42,7 +42,7 @@ class ChangePasswordFormBase extends Component {
     const { user } = this._props;
     this.children.ProfileHeader = new Header({
       withName: false,
-      Avatar: new Avatar({ src: user.avatar }),
+      Avatar: new Avatar({ src: user.avatar, id: 'change_pass_avatar' }),
     });
     this.children.Divider1 = new Divider();
     this.children.Divider2 = new Divider();
